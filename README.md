@@ -5,6 +5,7 @@ The active Node.js API has been migrated to Spring Boot. Both React frontend sou
 - `backend/`: Java 21 / Spring Boot 3.5.16 application, Maven wrapper, tests and environment example.
 - `frontend/admin-app/` and `frontend/user-app/`: original frontend files.
 - `backend-node-reference/`: original Node source retained for comparison; not needed to run the migrated app.
+- `ARCHITECTURE.md`: entity/DTO/repository/service/controller layers and request flow.
 - `MIGRATION.md`: setup, API contracts, database notes, original limitations and component mapping.
 - `VALIDATION.md`: recorded verification results and reproduction commands.
 - `README.original.md`: original project README for reference.

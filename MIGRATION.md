@@ -6,7 +6,7 @@ All **22 endpoints mounted by the original `backend/index.js`** are implemented 
 
 The source was inspected across the bootstrap, six route files, six controllers, five model files, environment variable names, all eight frontend service modules, trip creation, seat selection/booking, and authentication screens. Source comments and the original README were treated as reference; the mounted routes and executable code determine compatibility.
 
-The migration uses Spring MVC controllers, application services, and a MongoDB repository backed by the synchronous Mongo driver through Spring Data's `MongoTemplate`. MongoDB remains the database. Explicit BSON field construction replaces Mongoose schemas, casting and defaults. Raw documents intentionally avoid Java-specific `_class` fields, renamed properties, pagination wrappers, or different ID encodings.
+The migration uses separate controller, DTO, entity, mapper, repository, service, exception and configuration packages. Each resource has a typed service and repository interface with a dedicated implementation. MongoDB remains the database; BSON and MongoTemplate access are confined to the Mongo repository adapters. See [ARCHITECTURE.md](ARCHITECTURE.md) for the complete structure and request flow. Explicit persistence mapping avoids Java-specific `_class` fields, renamed properties, pagination wrappers, or different ID encodings.
 
 ## Configuration and running
 
@@ -148,19 +148,20 @@ Rollback: stop Java and restart the original Node backend with the same database
 
 | Node.js module or behavior | Spring Boot component |
 |---|---|
-| `index.js`, Express bootstrap | `TmsApplication`, `DatabaseStartupCheck`, `application.properties` |
-| `timeRoute.js`, `locationRoute.js`, `tripRoute.js` | `ScheduleController` (explicit route mappings) |
-| Time/location/trip controllers | `ScheduleService` with resource-specific fields, collection names and messages |
-| Time/location/trip Mongoose models | `ScheduleService.Kind`, `LegacyValues`, `MongoStore` |
-| `seatBookRoute.js` | `SeatController` |
-| `seatBookController.js` | `SeatService` |
-| `seatBookModel.js` factory/defaults | `MongooseCollectionNames`, `SeatService.create`, `MongoStore` |
-| `mongoose.connect`, `find`, `findByIdAndUpdate`, BSON serialization | Spring Data MongoDB configuration, `MongoStore`, `LegacyValues.json` |
-| `cors()` and Express path behavior | `ExpressCompatibilityFilter`, `WebConfiguration` |
-| Controller catch blocks | `ApiException`, `ApiErrors`, controller-specific failure mapping |
+| `index.js`, Express bootstrap | `TmsApplication`, `config/DatabaseStartupCheck`, `application.properties` |
+| Time/location/trip route modules | Resource-specific classes in `controller/` |
+| Time/location/trip controllers | `service/TimeService`, `LocationService`, `TripService` and their `service/impl/` implementations |
+| Mongoose time/location/trip models | Typed records in `entity/`, request/response DTOs, API mappers and BSON mappers |
+| `seatBookRoute.js`, `seatBookController.js` | `controller/SeatController`, `service/SeatService`, `service/impl/SeatServiceImpl` |
+| `seatBookModel.js` and model factory | `entity/Seat`, `entity/SeatChanges`, `repository/SeatRepository`, `repository/mongo/MongoSeatRepository`, `MongooseCollectionNames` |
+| Mongoose queries | Typed repository interfaces and MongoTemplate-backed implementations in `repository/mongo/` |
+| Request casting and JSON serialization | `dto/request/`, `dto/response/`, `mapper/` |
+| `cors()` and Express path behavior | `config/ExpressCompatibilityFilter`, `config/WebConfiguration` |
+| Controller catch blocks | `exception/ApiException`, `exception/ApiErrors`, `service/impl/ServiceOperation` |
+| Server booking timestamps | Injectable `Clock` configured in `config/ClockConfiguration` |
 | `dotenv` | Environment variables or local `.env` imported as Spring properties |
 | Commented-out user mount, unused mail route, unmounted `deleteAllSeats` | Remain unavailable; original source retained for reference |
-| Frontend `TimeService`, `LocationService`, `TripService`, `SeatBookService` | Unchanged; same HTTP contracts |
+| Frontend API services | Unchanged; same HTTP contracts |
 
 ## Preserved limitations and compatibility boundaries
 

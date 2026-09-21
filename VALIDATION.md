@@ -1,14 +1,14 @@
 # Verification results
 
-Verified on 2026-09-22 using the supplied `Transport_Management_System-main.zip` as the source reference.
+Reverified after the layered MVC refactor on 2026-09-22 using the supplied `Transport_Management_System-main.zip` as the source reference.
 
 ## Results
 
 - **250 frontend files** matched the original ZIP byte-for-byte. SHA-256 values are recorded in `frontend-sha256.json`. Vendored `node_modules` are excluded; no source or lockfile was changed.
-- **31 automated tests passed**: 19 API/integration cases and 12 collection-naming cases.
+- **34 automated tests passed**: 19 API/integration cases, 12 collection-naming cases, and 3 isolated service tests.
 - **70 real HTTP comparisons passed** against the original Node server, grouped in an additional differential test. Both servers used isolated databases served by `mongo-java-server`.
 - All **22 mounted endpoint definitions** are exercised by the tests.
-- The final Maven `verify` run produced the executable Spring Boot JAR.
+- The final Maven `verify` run after the entity/DTO/repository/service/controller refactor produced the executable Spring Boot JAR.
 
 The Java build used the installed JDK 25 with `--release 21`. Spring Boot is pinned to 3.5.16. The existing Java 21 runtime on the migration machine did not contain `javac`, so it was not used as a compiler. Maven 3.9.11 was used; the included wrapper pins the same version.
 
@@ -26,7 +26,7 @@ From `backend/`:
 ./mvnw verify
 ```
 
-This runs the 31 standalone tests and skips the optional Node differential test. Tests start their own in-memory Mongo wire-protocol server. They do not use the database in your `.env`.
+This runs the 34 standalone tests and skips the optional Node differential test. Tests start their own in-memory Mongo wire-protocol server. They do not use the database in your `.env`.
 
 To also compare with the retained original Node source, install its dependencies first:
 
