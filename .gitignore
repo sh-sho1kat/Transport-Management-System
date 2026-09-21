@@ -1,0 +1,17 @@
+# Dependencies
+**/node_modules/
+**/node_modules.*/
+
+# Build output
+**/dist/
+**/target/
+
+# Local configuration and secrets
+**/.env
+**/.env.*
+!**/.env.example
+
+# Logs and local tooling
+**/*.log
+.idea/
+.vscode/

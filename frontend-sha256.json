@@ -1,0 +1,1002 @@
+[
+  {
+    "path": "frontend/admin-app/.prettierrc",
+    "sha256": "37055c98043228133ffcc5cad7bba5ef6c8f24698a551cae547b90f51d22e519"
+  },
+  {
+    "path": "frontend/admin-app/LICENSE.md",
+    "sha256": "8988044d6cd6bdcb6e7f2c955fb0d848d3c4fc6c8e766857a4e02313eb706d5e"
+  },
+  {
+    "path": "frontend/admin-app/README.md",
+    "sha256": "08b1c0faae5e9bb2ca35683d00e80c5905237529a3a9fdfaa47d338ca39e8368"
+  },
+  {
+    "path": "frontend/admin-app/index.html",
+    "sha256": "9d4103ae35ea133cce6f7fc0d1bc78d7fe843202ce7017c6ace564cd3c21302b"
+  },
+  {
+    "path": "frontend/admin-app/package-lock.json",
+    "sha256": "966269b36e4297f19faa2f9d00ebbc34163cc679a66e737fadec97fbdf84a376"
+  },
+  {
+    "path": "frontend/admin-app/package.json",
+    "sha256": "d5baf7cc0cd0c24fef2b0f2f540bb44cd64bb05758800c3d430ad40236782757"
+  },
+  {
+    "path": "frontend/admin-app/postcss.config.cjs",
+    "sha256": "251ecddd4672c9cf467547e3dc535de00ad2129df26e7e7ae728fa4e5ac45fc5"
+  },
+  {
+    "path": "frontend/admin-app/public/data.json",
+    "sha256": "e85d16bfbed58cc6c2b67339c9e8f95dbcd7991e4342705359e765dab8a059c7"
+  },
+  {
+    "path": "frontend/admin-app/public/favicon.ico",
+    "sha256": "3a63e12d5d71ababd72cf6f3c6d7019d8b35dd6fb5ebed151363c0324e9fafb7"
+  },
+  {
+    "path": "frontend/admin-app/src/App.tsx",
+    "sha256": "7a91e5af19488006679906156ccd90c963f5ae89c703d7b1af8783b9ddb1e95e"
+  },
+  {
+    "path": "frontend/admin-app/src/common/Loader/index.tsx",
+    "sha256": "f4aab515973a7ebd3c0b55961e66d8b72ae00de78c0101afa0c5e62cd05cbc8c"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Breadcrumbs/Breadcrumb.tsx",
+    "sha256": "2eb364d24ed600a95038ae92f4df10d188a305f188c7875d6fc1b6d710b65870"
+  },
+  {
+    "path": "frontend/admin-app/src/components/CardDataStats.tsx",
+    "sha256": "b9cd7fe4d3f8b77dfdcf0814dafa55b07cb593506aa8ac1393166c2ed6657003"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Charts/ChartOne.tsx",
+    "sha256": "0ff392b07cc118cb4e1eecad5bb3f3d7ed6760a100de8ad83f483b661a539dad"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Charts/ChartThree.tsx",
+    "sha256": "a884a8607c5e1e37b00282e5429751643221aed8f58efac259e1f545d5020c6e"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Charts/ChartTwo.tsx",
+    "sha256": "78b62910ab6af0e044a17a1fe16856c1a49591839cbe9449366f9b8826661d78"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Chat/ChatCard.tsx",
+    "sha256": "e298834b2170d201d478e06da5722798edfdf76fc0b620b8307f97eeea64ab48"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Checkboxes/CheckboxFive.tsx",
+    "sha256": "3d4ee6ad3c9a65a621def789a3e9dd587c4b4724a9f62be46f446c78a6bae086"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Checkboxes/CheckboxFour.tsx",
+    "sha256": "67d4c8232a4ff14a6126fe0f2ca491ea4ab3f825b15453ddf4fe363a1017e728"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Checkboxes/CheckboxOne.tsx",
+    "sha256": "8cbc88c06a67575eacde6a5b4e9c3f133837e26bcf5d25876ce82195844eacdf"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Checkboxes/CheckboxThree.tsx",
+    "sha256": "61c36a5f239cfcc8c905b08d4bed549e9e79cfacc1bb3d210b40d4e8e20f5f5c"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Checkboxes/CheckboxTwo.tsx",
+    "sha256": "c3d695892e203180ef297d2da27ddc1c8015d66fe4f82b2cae5fb955cf828297"
+  },
+  {
+    "path": "frontend/admin-app/src/components/ClickOutside.tsx",
+    "sha256": "5e21b22c2e459a47c2d04003ec80c8355ad6213e3fd9e432516d7ec82cdb1c8c"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Dropdowns/DropdownDefault.tsx",
+    "sha256": "26f1a89d12d7ad0908739bb99c73b2ca47cb2a11f886a9d84df28ff5cbc29025"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Forms/DatePicker/DatePickerOne.tsx",
+    "sha256": "dd780261bfa89db5549e8895ec4d20c0e44a907f4ac5f16ebd6e00e571f99781"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Forms/DatePicker/DatePickerThree.tsx",
+    "sha256": "f660c9aad7df6dd42eb3347d04b6ec2130380655fe1816ed307b989dca5bdc3b"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Forms/DatePicker/DatePickerTwo.tsx",
+    "sha256": "e3ff639476d38d8a13a5577a17a60bd17d0e67ec6d98aefa3b8a5192d5db2b79"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Forms/MultiSelect.tsx",
+    "sha256": "ca0695e4f29aa8845d70f83b7381c28c98e2f4c4546af911d990d1e182fad4d3"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Forms/SelectGroup/SelectGroupOne.tsx",
+    "sha256": "fbe549a7615cb3e20578fc4ca7af0eaaaeae7805686613ad1d4a0af18d26adce"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Forms/SelectGroup/SelectGroupTwo.tsx",
+    "sha256": "7172b529e61656f2b739430235d520f9a8c526a2911b0fda9ccc9b889e1230a6"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Header/DarkModeSwitcher.tsx",
+    "sha256": "a3bfe7f0a0f1824c8f6b04f86c6006c405e416dbae741a6b284e978e810d3ddb"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Header/DropdownMessage.tsx",
+    "sha256": "f7c06fff1b89fd93c88e91033d131ca466fbde7f30181e700ea5433d913b881a"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Header/DropdownNotification.tsx",
+    "sha256": "9e1213bc16216f99ae71cb34135338bd94adb47136ffcc8c8b421f36f37c0e13"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Header/DropdownUser.tsx",
+    "sha256": "b1d4a95f777048da8df481316249600f80fbe3286bf5ff71273d238ca6dc82db"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Header/index.tsx",
+    "sha256": "234d1c05744eeaad003c57859c4760e51aa6a26461080946894774f1cc3f04fa"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Maps/MapOne.tsx",
+    "sha256": "1775db71da13ac2bcbe35f24a83395fb52a42ffc0bc245fc7530b9c684f53836"
+  },
+  {
+    "path": "frontend/admin-app/src/components/ModalSettings.tsx",
+    "sha256": "c38a4ccf9fba6666c5655e706f0c500f6888afd4e34a4c4467f515d96c8be70b"
+  },
+  {
+    "path": "frontend/admin-app/src/components/PageTitle.tsx",
+    "sha256": "90a095c27b8cc80ac9bde8e89eff840dacceb282910ed6ff266f35fc5bc003b7"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Sidebar/SidebarLinkGroup.tsx",
+    "sha256": "226d9d62348a28770f074fab76b36d168da533c12d0a199c589154d2fdd06e18"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Sidebar/index.tsx",
+    "sha256": "4066323e687d5309cfc6c229ddfec1f6e8337e5b1673c3f6450101e63e53805a"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Switchers/SwitcherFour.tsx",
+    "sha256": "d9b853ad1d5629bd77f9ad3054bd614db825e43d69181cc2f9b8aca1adc4a597"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Switchers/SwitcherOne.tsx",
+    "sha256": "b4dffe72774810c5c96906f5a192d21eed419978d8872a48d3f6eda07446d3b0"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Switchers/SwitcherThree.tsx",
+    "sha256": "75ea07beccc4a79e7802add7037798a849cdd62c6be71121772167d68d1c71d8"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Switchers/SwitcherTwo.tsx",
+    "sha256": "f5382808b5f6a69f4ae96e85f0776f4f6401e74ab6c13dabf7a7e28720413a61"
+  },
+  {
+    "path": "frontend/admin-app/src/components/TableSettings.tsx",
+    "sha256": "ce2184ed517c0989e4cfccc3ac679565c760b09644cac590678b952c9257d59e"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Tables/TableOne.tsx",
+    "sha256": "2d7d2be8e18c653e85cdcc561bf19c016efd5d370d893e190b5cc866be3b468b"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Tables/TableThree.tsx",
+    "sha256": "b5336f367ed4d2e251c62503d4bb77b0637f2c1985d3758332f639e9fffe083c"
+  },
+  {
+    "path": "frontend/admin-app/src/components/Tables/TableTwo.tsx",
+    "sha256": "eda5a95521ae917c737d584f5cda82e8d3f91982100df16db1babcd4e8e464f1"
+  },
+  {
+    "path": "frontend/admin-app/src/css/satoshi.css",
+    "sha256": "56375a96a0a4eb05d2c4b53eacc1fb912b34971c2dffb7410cbc3ef93f4c556d"
+  },
+  {
+    "path": "frontend/admin-app/src/css/style.css",
+    "sha256": "4175d03aae872c07caaa40482440088bbe15a8ff9e3e1d963b673bf1f9583bed"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Black.eot",
+    "sha256": "733c4b1d7260aa1a19439270cc893eeaf23674d69fec94b4beb8ffd510d35380"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Black.ttf",
+    "sha256": "78edaca6fa30d0842fd94426984c700e156c39942bef5fd585a42f84cef86197"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Black.woff",
+    "sha256": "a849a7b764a0d0e07fbd301462086c8dfba4a81a07637d8021823306154bd231"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Black.woff2",
+    "sha256": "bd11b5820231420e78046c611aebdd628dc17ad67788258ffe3fe902253efd3b"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-BlackItalic.eot",
+    "sha256": "393d0b905ef3a5d785599741e078c65602a87487434a74ef92f5ce3e7b657b69"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-BlackItalic.ttf",
+    "sha256": "d3d6c8d694cf460db4b47a6923f887442b53f715b058a2672cc2c52869bd3971"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-BlackItalic.woff",
+    "sha256": "cf5edac8e11718d6b0e1e317365613790469e8bc442a9d07384dab413bfe2308"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-BlackItalic.woff2",
+    "sha256": "83d61d6709e7dc456bced1e09bdb92c7d375ad2b9acaf1c2e7b184a98b8db71b"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Bold.eot",
+    "sha256": "2820cbb8fc9cdd1dbb61a514f916387ce36626534b44ca0ec5ed257a452efb9d"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Bold.ttf",
+    "sha256": "2c122eabbdcfd48c61579076f5089d3d84dda9768a6d9567a068c63cc2eef9e1"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Bold.woff",
+    "sha256": "1789917c68172af8a24eeec4ceced208471f7906c6ac51fb7017636b9af6cbe3"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Bold.woff2",
+    "sha256": "353a7fbfb4475f0c31470a7449226006cb64211c71055ca9db860a8acdaa9f68"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-BoldItalic.eot",
+    "sha256": "09087404bbd9cb77af227d2f7bf7d9f84c358c170a7df252792d7005963a0ce1"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-BoldItalic.ttf",
+    "sha256": "8ff85a17fa5e56878d6296dea3a3259df36b2698515a42eae5c848854e5f5aaa"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-BoldItalic.woff",
+    "sha256": "5d73878eeeadc9b110cc737d76581c8f8dcc632c6d3a0bd1cfe21c57f9d57318"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-BoldItalic.woff2",
+    "sha256": "52bfd9e8a1482355cf503c1d20e69e92c0aeca6d24e04a3de6d30038a7ff3d20"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Italic.eot",
+    "sha256": "508661560ba310f98b4efc2eeb6cdc48f1b69862601e75105536546bf15de8bf"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Italic.ttf",
+    "sha256": "14c3d259162871b6191d0043a3653e983ba239e0b4e73848ac1d2900c2f04859"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Italic.woff",
+    "sha256": "a6df1710ab05e764bc62503c26e3425dc8b1d2863541ddea25183b3de2b4c327"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Italic.woff2",
+    "sha256": "dbcb8c322fbf98ab6a24fd50219851d1e1cfc8794dc68aec907f9b912a0f37b6"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Light.eot",
+    "sha256": "0c922bd0a6829c6e68ff376c1538957d7a0f58dd0e3c22385206a292fdaa714b"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Light.ttf",
+    "sha256": "b54cf060786990890f22edd0adc20daee18c218c0017b2d8029b2f5813a09ec0"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Light.woff",
+    "sha256": "dd42e743e61ce9515847f9365408297bfca383f4840fc1d2a3cbce706b859d73"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Light.woff2",
+    "sha256": "8a24f395b65048dea9dece6444525fa3adf180057d82c3f831095bff3feda5a0"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-LightItalic.eot",
+    "sha256": "aa94bed1d90f73813d6ae22bf5c1c7b16f53442fef8ef8d52df9380bec43b6f1"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-LightItalic.ttf",
+    "sha256": "c9a8d02792761e5b48f4b235578e4e53b927877a478d83b14f3cf27ac91155a5"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-LightItalic.woff",
+    "sha256": "2f9c5264ee231a8009a94aaa345c48d34a9c119bf084370d80b9d6bca87b8b9d"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-LightItalic.woff2",
+    "sha256": "9690a557b8ed0c4d7816804a489be6f67797bf1dce6e11f8e9b6267e0498342a"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Medium.eot",
+    "sha256": "f3059fa979a00ed94bcfa4faa5a8b6c96d81059d99542d6c3998c7318aa17f93"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Medium.ttf",
+    "sha256": "7130cef67527f498ea04f7b822e7efcd91d5c7d6ee6b105a8097a736ce70b04e"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Medium.woff",
+    "sha256": "7aeaf037fba5e3e1b3a1862934f5cabcc863d8e1bd6f45d08c4338d2f93b3e2e"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Medium.woff2",
+    "sha256": "af02a72246f53ad49c44a591921edbd39ec8258a03d8cc2e0532aa1e497e85b4"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-MediumItalic.eot",
+    "sha256": "e6381a7925503438cbaaa639a5a7321ac08606f9404df6adaf3b846e7da10449"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-MediumItalic.ttf",
+    "sha256": "71f8dce589fbe090c7c29ec0e15788655ee326d045da163d7581a05ef164c561"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-MediumItalic.woff",
+    "sha256": "cf98a3ed3124d021bd11ef9975f307944f8566a72dd3914bd09f410c17b14158"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-MediumItalic.woff2",
+    "sha256": "beb15382ceea12a0365a8a50530549c7f2ec1c59462fa269645a9add84f54bb8"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Regular.eot",
+    "sha256": "c1a3ea74cb799338e5e63afdaf59c1b80daccee9027f41c35af748497f5f66f9"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Regular.ttf",
+    "sha256": "243b23f64087e91868b726e9980621727b9e938c1c773d2b1ef32760ea8b7f07"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Regular.woff",
+    "sha256": "9fbc41c98039b8f79ef0c037616a24d619e6b33f5a833c6f416816d7b493ccad"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Regular.woff2",
+    "sha256": "50dca57f0b77918e0fb7dac998c3f5ef6b0c2a29657da97658a04f98ac532fc5"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Variable.eot",
+    "sha256": "81de16641ad93c276640991b8d80ffa1e42319394c2d75124fbff60488f2c236"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Variable.ttf",
+    "sha256": "02ad131926aa46d282b6af73ad2bcaecb0ec6ef3b830a2f08dcabef44f1140ff"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Variable.woff",
+    "sha256": "9cdbec9eb9de8ac09b4745f0c21591e3ec385fcfab4e652175ab381001fc8d8b"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-Variable.woff2",
+    "sha256": "e739aff9b4d02c264341d6d4872edcda28e79373aeda936f659566a1cd3eb47f"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-VariableItalic.eot",
+    "sha256": "7d43a67a5f2a452bc0437fd8a8dce4220f8cca5ced09e1aa514e21129bc89625"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-VariableItalic.ttf",
+    "sha256": "cfe8f600aa33dc80075b319a16ae663df30c7901b6cb332e70ea7dfb9c08b6ad"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-VariableItalic.woff",
+    "sha256": "787e19b186a18c3d562105c8eb09ae55e75f54e90a1efb3fcfe95c48a5e7941a"
+  },
+  {
+    "path": "frontend/admin-app/src/fonts/Satoshi-VariableItalic.woff2",
+    "sha256": "e7b4e0ec5fbb156df444371d62c3506fe6256db6ffb55c4982dddbb44e2de351"
+  },
+  {
+    "path": "frontend/admin-app/src/hooks/fireToast.tsx",
+    "sha256": "cdc66ae7b10419f6b8510d136b43596cecc079a5a7cd925280173f83180971bc"
+  },
+  {
+    "path": "frontend/admin-app/src/hooks/useColorMode.tsx",
+    "sha256": "624e413f83bc0c6b43d4196f05ea630d4b761da311fef9cfa0a2bb8c94b30872"
+  },
+  {
+    "path": "frontend/admin-app/src/hooks/useLocalStorage.tsx",
+    "sha256": "e81ec425a0c588ce83721bd56c97d347051b5ab380eb6d4756a40fa428b1a91f"
+  },
+  {
+    "path": "frontend/admin-app/src/images/brand/brand-01.svg",
+    "sha256": "10b0313f27b365a19e7b2c6ac1bd805cc0f910446aa3786c6cbb652a4097b4c8"
+  },
+  {
+    "path": "frontend/admin-app/src/images/brand/brand-02.svg",
+    "sha256": "31d534b84a9f6f547bf08be07203fd49e4e23266eeebf30317b4383ddae6baf6"
+  },
+  {
+    "path": "frontend/admin-app/src/images/brand/brand-03.svg",
+    "sha256": "6cc453d1b495aa3f53e87128835ab894f9a3f4b9df6af75522441b24ffea32f3"
+  },
+  {
+    "path": "frontend/admin-app/src/images/brand/brand-04.svg",
+    "sha256": "1c41292aa0ba55139c8f2c657dd7973a3786597520532f115669aabd3404f176"
+  },
+  {
+    "path": "frontend/admin-app/src/images/brand/brand-05.svg",
+    "sha256": "b51c44b2ac721900ad8632580f53ec936427c177d48196396a34c6fd133a5824"
+  },
+  {
+    "path": "frontend/admin-app/src/images/cards/cards-01.png",
+    "sha256": "33e855d2aa7086093cc754efaca0faf0f3dbddbe70e8cebd2c327abda98f1c74"
+  },
+  {
+    "path": "frontend/admin-app/src/images/cards/cards-02.png",
+    "sha256": "ce9be625e2e6fa62a9a816cf8d3ed3d0d965d9ccc5619ebc1dd3f90c59619907"
+  },
+  {
+    "path": "frontend/admin-app/src/images/cards/cards-03.png",
+    "sha256": "a16c873d6af09d05fbdd3bbd1069f10b03cfe2ddcc482d23f06c760da83bd83a"
+  },
+  {
+    "path": "frontend/admin-app/src/images/cards/cards-04.png",
+    "sha256": "a8cae037d3baf83b9f4f70d594fdffd237496573611e5a4d8cf97c7a340dcb3b"
+  },
+  {
+    "path": "frontend/admin-app/src/images/cards/cards-05.png",
+    "sha256": "2dc893096e37382cb1f773c85b2e6c44ad9b37f2d15da7a41476a578493f246b"
+  },
+  {
+    "path": "frontend/admin-app/src/images/cards/cards-06.png",
+    "sha256": "5c52aa63ec6cb5e3f5a4c5cf40b1f77ce9ca4bf56f6d06791ded1e58620dd060"
+  },
+  {
+    "path": "frontend/admin-app/src/images/country/country-01.svg",
+    "sha256": "3ee58ff60a0736805e702cee600a8ddc4e1914a5a695721c6dd278c69ca411be"
+  },
+  {
+    "path": "frontend/admin-app/src/images/country/country-02.svg",
+    "sha256": "417f8bbfb38dc27d559a043441c2fb3594d5733940d2c946ab57d3ad22ade26d"
+  },
+  {
+    "path": "frontend/admin-app/src/images/country/country-03.svg",
+    "sha256": "b2eaf2769c82dfd071836cb1c5bd2a94bb61b3c5995a0e6d36978ba57146557c"
+  },
+  {
+    "path": "frontend/admin-app/src/images/country/country-04.svg",
+    "sha256": "98c1f4c99d3808797ff58c037b8baec5db918db40cf3fd98d3ba69314cb1af79"
+  },
+  {
+    "path": "frontend/admin-app/src/images/country/country-05.svg",
+    "sha256": "32039880f6a087ea0d84cfa25e133eb43a736cec03eb484c5f9eee45ea60ad33"
+  },
+  {
+    "path": "frontend/admin-app/src/images/country/country-06.svg",
+    "sha256": "df9d1b679352c747d9fbf67ff750fd3c8e1b61208861ab51f0980909c0d9ec92"
+  },
+  {
+    "path": "frontend/admin-app/src/images/cover/cover-01.png",
+    "sha256": "e8bbef0429b7a40d7ccfe040811cf266bf9ab12146e94ce2029247ea7585474c"
+  },
+  {
+    "path": "frontend/admin-app/src/images/favicon.ico",
+    "sha256": "3a63e12d5d71ababd72cf6f3c6d7019d8b35dd6fb5ebed151363c0324e9fafb7"
+  },
+  {
+    "path": "frontend/admin-app/src/images/icon/icon-arrow-down.svg",
+    "sha256": "f8ac86cec74cd53a6f6fd2c0ee509c985b912314ff7341836aa539ded0ae45f6"
+  },
+  {
+    "path": "frontend/admin-app/src/images/icon/icon-calendar.svg",
+    "sha256": "d5c64f5001443cc49845ca9b0e2daa0656522ede1b86b597622e70f26b769353"
+  },
+  {
+    "path": "frontend/admin-app/src/images/icon/icon-copy-alt.svg",
+    "sha256": "8b00e12a1fdb5b32df280ae60024e5631b0c3c968aeeaaefbf7a2a8222e543bd"
+  },
+  {
+    "path": "frontend/admin-app/src/images/icon/icon-moon.svg",
+    "sha256": "ce6ed19579dfd3030cb8d6f50397ca37deb9b8e0c6dd4e725a6e1c1bdb35ab4d"
+  },
+  {
+    "path": "frontend/admin-app/src/images/icon/icon-sun.svg",
+    "sha256": "29cea0b17f883d8508f0c5079e1bee5d722e924191b13ce1a40efc01cf361c77"
+  },
+  {
+    "path": "frontend/admin-app/src/images/logo/RUET_logo.svg",
+    "sha256": "a0f9ce9972bb8c9976488678f442e58cd8ae6ce7ed2e52d837b984b93cb8772f"
+  },
+  {
+    "path": "frontend/admin-app/src/images/logo/RUET_logo.svg.png",
+    "sha256": "ddc14499aee9f2c5af4cfa52eddddbf6eedfbe1eb30be579c75c1f1e095d9c9c"
+  },
+  {
+    "path": "frontend/admin-app/src/images/logo/logo-dark.svg",
+    "sha256": "893f6bd01ecd1f53685c7254c03dbda469920106b526b8b321aa3ea66ca7906d"
+  },
+  {
+    "path": "frontend/admin-app/src/images/logo/logo-icon.svg",
+    "sha256": "7e6ff7aa9c22a3d24db1725fa772ec1eada83f1d76abeaa55ddc3bf8e87b3f65"
+  },
+  {
+    "path": "frontend/admin-app/src/images/logo/logo.svg",
+    "sha256": "162ee3ec9e128af723bb87eed03faf38e237a69d2fe6a3a68b6c426abdfa73c1"
+  },
+  {
+    "path": "frontend/admin-app/src/images/product/product-01.png",
+    "sha256": "c483c307a302d63673f0d448e303ec459a9af95b463422d094362a1093b613fe"
+  },
+  {
+    "path": "frontend/admin-app/src/images/product/product-02.png",
+    "sha256": "7399ae73a8b5d73a6afd153cd426dae8d0333ba293523838629d44681ff134eb"
+  },
+  {
+    "path": "frontend/admin-app/src/images/product/product-03.png",
+    "sha256": "16b7c2c942303ed7a76e71ce597268c567e35f599a7e6c326735ea8a97e4b6c9"
+  },
+  {
+    "path": "frontend/admin-app/src/images/product/product-04.png",
+    "sha256": "89ad00c904fccb4b75350f9d6c755cf8ccbf81ef8cd74870d106a16b4995dbdd"
+  },
+  {
+    "path": "frontend/admin-app/src/images/product/product-thumb.png",
+    "sha256": "07a1accfe75344e9160ef7eec747b9f77251906e32abedba2f28051e3fe416dd"
+  },
+  {
+    "path": "frontend/admin-app/src/images/task/task-01.jpg",
+    "sha256": "af96251bf72d4da39886121c6ce257ec27be10a374768331074684db619b09c6"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-01.png",
+    "sha256": "aa62abc3f253b5ce19885e24b7d71552af83834cdf9f6b895a47859569befd69"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-011.png",
+    "sha256": "b007ff3fcc7dc34c3cc19a8e1a8309aabcab235886237d4fc092747f0ffb3c51"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-02.png",
+    "sha256": "5a30400131d152745e3c65cbf8072bf9a5bed2442661b8ef66937357161e04e1"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-03.png",
+    "sha256": "3c4ef32c1921c49b147795ad378b745a0fc60a3862bfaf66b8ee7e8161d1fc17"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-04.png",
+    "sha256": "04f111460ac14e3ad3845de6466e500fef1f223883858725bc4bb46560fe5ac2"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-05.png",
+    "sha256": "d5425ed50d6ce42208a42ea493b1bd0aaa424cdf67babd5295da6fac2747613a"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-06.png",
+    "sha256": "00406fb89f9af62ad357a4f71a37cbdc971eecf4b81051dd527660d5d2d60484"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-07.png",
+    "sha256": "2cbc01aafac810aec992a957c9650b72888c295278452834ffca176db1af3ee9"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-08.png",
+    "sha256": "2a26f8eb493b40dcb69d0c29a88def340531b709dfb052385c067b43adf1ebbb"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-09.png",
+    "sha256": "117ea35053f75992f2daba0f700eff2ff733910ffd650b0f11739fafa7505bfb"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-10.png",
+    "sha256": "61b33c6059b753a059927300e26de93ef2a4ebebfc8040447efa32867fce21bb"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-11.png",
+    "sha256": "7f604cdeadb996bd4de64954b90b286a2950b6e56a38a4b846a56e5efeadf1fe"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-12.png",
+    "sha256": "096d564439135806aa2ddf442616b417d6a854e76a1fb9a078aebaf2ed2932a2"
+  },
+  {
+    "path": "frontend/admin-app/src/images/user/user-13.png",
+    "sha256": "7b29861735905404921aa8f00336452f175ce1ccef771a9f9801a98de7bbdbf1"
+  },
+  {
+    "path": "frontend/admin-app/src/js/us-aea-en.js",
+    "sha256": "0c14880727f926affaecdfdf73e6c2010e98c72f08966c635fa99b2b0e0913c5"
+  },
+  {
+    "path": "frontend/admin-app/src/jsvectormap.d.ts",
+    "sha256": "6f10ca36a143462c0ef612b5c69a58fef6efccc1e36607706e950b622ccc22a0"
+  },
+  {
+    "path": "frontend/admin-app/src/layout/DefaultLayout.tsx",
+    "sha256": "adf89529f8bbfdaab5d7469ee9ca5a5308e1ba957b9f1d012abb09a59ed7fe18"
+  },
+  {
+    "path": "frontend/admin-app/src/lib.d.ts",
+    "sha256": "3a19310063fd5621843737a25da59e01c9dc8f59414e6c44667e22e1698de593"
+  },
+  {
+    "path": "frontend/admin-app/src/main.tsx",
+    "sha256": "074e9895c44da9ac528cdbb76d8adf2bcdc526be0cb74bf19de537614ebe15b2"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/Authentication/SignIn.tsx",
+    "sha256": "a2a10bda82199b96208edffc76a480023fce3cbacace4f8238c89ebd98bc848b"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/Authentication/SignUp.tsx",
+    "sha256": "ed6ca32c40c579ed68733890a38054161ed4c955ea00555df9bbdfbba58407f8"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/Calendar.tsx",
+    "sha256": "d5bcb677f05b52d08aa8955c5cad9751a1458fe7e4e3c699715cb7deb23f72bd"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/Chart.tsx",
+    "sha256": "1d164c3b29b0cd413dfd5171e05e781a13c1f1fe00787f677f2e55158aadd552"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/Dashboard/ECommerce.tsx",
+    "sha256": "8f53cea3398fbc59acf5ef690164d93cf5b02cb2a40656fdf80abc76508da97e"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/EditSchedule/AddLocation.tsx",
+    "sha256": "d2f4fd8e2ed56c928ccba7eed6bbeedee9fea6335601dcf6c4c4ae17074f9e28"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/EditSchedule/AddTime.tsx",
+    "sha256": "9908206f85938e85c4b79c644a9cc9f9c57d32ba1b5c9f2d4eaec5681c9725c2"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/EditSchedule/AddTrip.tsx",
+    "sha256": "08eb87340b5e7abcea98449d962a453351640a5810901d617f94e3cc897f1c15"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/EditSchedule/LocationList.tsx",
+    "sha256": "058980a240c080be9ea2b1cb156c6b4f9215f45a90af20e789e4b7713bf5307b"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/EditSchedule/ManageTrips.tsx",
+    "sha256": "333aebded991874b1e1ce7963a03e2e71d67a8027f4055491e026623de336579"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/EditSchedule/TimeList.tsx",
+    "sha256": "f3ba52a50631a39bda60edb16155ff6009c60e7d5da78aca41ecf9fd1d980f2b"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/Form/FormElements.tsx",
+    "sha256": "f08a1dde6e3f7609b7ac05049ad58eb43325916beaebb627a353c5ec0773bebb"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/Form/FormLayout.tsx",
+    "sha256": "d1c0d18a9bde4a64a204eb27db7aaf5f41aa50041f84b3dc2f2084110d2103d5"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/Profile.tsx",
+    "sha256": "6568f0a874c027d44735e4021ff9fa4e271daeff5fa6223f2a965cbe0c6549ec"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/Settings.tsx",
+    "sha256": "0c01118b3badec3c9e4c625af7e3ad896881e9f2f26103363a7c2acb443b9430"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/Tables.tsx",
+    "sha256": "1bad195d44b1bedd18b24689ebcb36626dac740a375f7ee5d69d62833d531d6f"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/UiElements/Alerts.tsx",
+    "sha256": "d1d31ce5cc9b94310c0f684bbf7aa0c58e0186029ce4108f1bf09968640a9285"
+  },
+  {
+    "path": "frontend/admin-app/src/pages/UiElements/Buttons.tsx",
+    "sha256": "872d327f9293cfeec75b417593c30c33f5bb06f61f0c8170c092396dd867b2ac"
+  },
+  {
+    "path": "frontend/admin-app/src/react-app-env.d.ts",
+    "sha256": "c4044f92f0b5d5f3e5d9a0ab6346e332df86b5456d5131cc815a07c608d87e17"
+  },
+  {
+    "path": "frontend/admin-app/src/services/LocationService.ts",
+    "sha256": "f55d092d89f8fa9c78c9baaaf672bb2ce0f1480f175d2f9eec681eab72c853a8"
+  },
+  {
+    "path": "frontend/admin-app/src/services/SeatBookService.ts",
+    "sha256": "4df6440c7808a8ebee37fbee1dfed8bf35980f4c488691f01c76d5a0ffefa44b"
+  },
+  {
+    "path": "frontend/admin-app/src/services/TimeService.ts",
+    "sha256": "83037916bd4938d325a39b88af41623d91682ccafaa0af38fb502110f3534100"
+  },
+  {
+    "path": "frontend/admin-app/src/services/TripService.ts",
+    "sha256": "c6b68d52a67e7aed6fbfc6996a338a4899324b68e4df98ee57f8454acf35164f"
+  },
+  {
+    "path": "frontend/admin-app/src/types/brand.ts",
+    "sha256": "e6f69b9866ae6d5f9e2bcb191409fbecca8a2ba7bac81f2883940efb5fe17a5c"
+  },
+  {
+    "path": "frontend/admin-app/src/types/chat.ts",
+    "sha256": "293c1df9a6358ddbbecef069f6f3ceb188452ee01450c576f2367f0aa10080f7"
+  },
+  {
+    "path": "frontend/admin-app/src/types/package.ts",
+    "sha256": "9c1a08d7b133ea9a4ba3535966f7b859917329944da4170cfcdc5623a01b0113"
+  },
+  {
+    "path": "frontend/admin-app/src/types/product.ts",
+    "sha256": "6f4b1e9d9d61ee69add08fe6765e6859434c154a2c9ff5d4fcf18202b6041f47"
+  },
+  {
+    "path": "frontend/admin-app/tailwind.config.cjs",
+    "sha256": "360c36f1f54bef6a94149ac41c66a0f84024d0945a279d7388e2863cd03f9b78"
+  },
+  {
+    "path": "frontend/admin-app/tsconfig.json",
+    "sha256": "0fcb1e0950664d25b36455ce74946b214238adb93fa96327ec8e304a3b260615"
+  },
+  {
+    "path": "frontend/admin-app/tsconfig.node.json",
+    "sha256": "9e2abb169ea87b7190613a1d4da57ca608463a453bd4231fa3aeee5e308370dd"
+  },
+  {
+    "path": "frontend/admin-app/vite.config.js",
+    "sha256": "2d8b8a9c0291a6635f5efef200ae0fae8bfd0f5d57b3e456125e71aea661be6a"
+  },
+  {
+    "path": "frontend/user-app/.gitignore",
+    "sha256": "fe718e7babb14f3cbad2d97f08889b9ce5215ed3fe0e43b2b8cfbfb3b9b844e8"
+  },
+  {
+    "path": "frontend/user-app/README.md",
+    "sha256": "22ac249d3674c2fe6663bb77aafd74502a0103b7fac45ef395dfd09974da7561"
+  },
+  {
+    "path": "frontend/user-app/eslint.config.js",
+    "sha256": "af46c4208b39e0e9cdeed4109391dfd7053294d0f32a06a646b4b07d4abc4a96"
+  },
+  {
+    "path": "frontend/user-app/index.html",
+    "sha256": "c83014e260e812f50dba2594fa08f7800c09927fb9d057d470091a06deca2444"
+  },
+  {
+    "path": "frontend/user-app/my-app/.eslintrc.json",
+    "sha256": "8d4a8d81dab1c22bcb28635249606f2e59fa816e8e58c56eecf6d2430949847a"
+  },
+  {
+    "path": "frontend/user-app/my-app/.gitignore",
+    "sha256": "5198163350dcb463af0764ebc9aab035eeb68d5deca58779850bf0fa6b657070"
+  },
+  {
+    "path": "frontend/user-app/my-app/README.md",
+    "sha256": "60b55ff7df79af72590f9524208e46642bc32bdc175cdad41349681c0e2f958f"
+  },
+  {
+    "path": "frontend/user-app/my-app/app/favicon.ico",
+    "sha256": "2b8ad2d33455a8f736fc3a8ebf8f0bdea8848ad4c0db48a2833bd0f9cd775932"
+  },
+  {
+    "path": "frontend/user-app/my-app/app/fonts/GeistMonoVF.woff",
+    "sha256": "e8b65928f551b17e3d67c3f709721b952c39842d14b00701f9232057fde73608"
+  },
+  {
+    "path": "frontend/user-app/my-app/app/fonts/GeistVF.woff",
+    "sha256": "296fafafd41304f7c992079054b8af914dbbd865f32de97c66d0f613b55755d6"
+  },
+  {
+    "path": "frontend/user-app/my-app/app/globals.css",
+    "sha256": "ecbfe8b9473e9fbbb584a597760495c2fd9f8512bb757199db8d7d699036c0a0"
+  },
+  {
+    "path": "frontend/user-app/my-app/app/layout.tsx",
+    "sha256": "c21ba97aa692418557c5c529fd8add83918cab60e8b2ea3bc134af2202376c69"
+  },
+  {
+    "path": "frontend/user-app/my-app/app/page.tsx",
+    "sha256": "e12887862ea242ac85456376cade080612db1ff4e31826c794b96fe79b200e3c"
+  },
+  {
+    "path": "frontend/user-app/my-app/next.config.ts",
+    "sha256": "614bce25b089c3f19b1e17a6346c74b858034040154c6621e7d35303004767cc"
+  },
+  {
+    "path": "frontend/user-app/my-app/package-lock.json",
+    "sha256": "b63ad35de7d51c6731888c3ed1b37a0648225484c5fc59167d2adf44c636f554"
+  },
+  {
+    "path": "frontend/user-app/my-app/package.json",
+    "sha256": "a152c9f030df88cb8201fbd2a0a981a2f5cecc2cbb2fa14df6775c6a39409b1c"
+  },
+  {
+    "path": "frontend/user-app/my-app/postcss.config.mjs",
+    "sha256": "ac31e2a95ef64fe27ceb4124e101675273107aae2e33bc490b01d919e7f03646"
+  },
+  {
+    "path": "frontend/user-app/my-app/public/file.svg",
+    "sha256": "2b67812c325c199a02536cdbeea0c593a72f707d323b72ee3e08dbab06753bd4"
+  },
+  {
+    "path": "frontend/user-app/my-app/public/globe.svg",
+    "sha256": "b614b9bf183925957661ac851498fe1d8029fd43a62fbfed86f9e2624a57e7cf"
+  },
+  {
+    "path": "frontend/user-app/my-app/public/next.svg",
+    "sha256": "55995dfad6ecb4945a1e856ddca03c5e16aa5bf13fd21b4df6a74ae79357bcfc"
+  },
+  {
+    "path": "frontend/user-app/my-app/public/vercel.svg",
+    "sha256": "f081337b2fee635b455b63275406a3e7f39d6a014e25ad90dab5a67e62a12ac4"
+  },
+  {
+    "path": "frontend/user-app/my-app/public/window.svg",
+    "sha256": "644768c4aaeb4767bce293344eeb0c125fb804a94d801440424072202d85e3a1"
+  },
+  {
+    "path": "frontend/user-app/my-app/tailwind.config.ts",
+    "sha256": "5153867d3940b5105155e0f023c6b9a914712caeef9410d93fa325225a58f9ed"
+  },
+  {
+    "path": "frontend/user-app/my-app/tsconfig.json",
+    "sha256": "ed2bc19510589ae5c0940b5e4504c6c0413ba285ae35a3d4ad9db5f5d3a8eb51"
+  },
+  {
+    "path": "frontend/user-app/package-lock.json",
+    "sha256": "fb0ee2cee8e721a568d48ce4ab6fe44af424246afa6ca9f337e6df6ed7b8baf6"
+  },
+  {
+    "path": "frontend/user-app/package.json",
+    "sha256": "6d8a97c2882be5d505f67b828141678ad0c7cb5a3c6762d4bd8256eecfe52718"
+  },
+  {
+    "path": "frontend/user-app/postcss.config.js",
+    "sha256": "190c877db466995bf1482f4a16abd06e04a89ede3119341e2a86ff96e1737b27"
+  },
+  {
+    "path": "frontend/user-app/public/vite.svg",
+    "sha256": "4a748afd443918bb16591c834c401dae33e87861ab5dbad0811c3a3b4a9214fb"
+  },
+  {
+    "path": "frontend/user-app/src/App.css",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "frontend/user-app/src/App.jsx",
+    "sha256": "1accd93a080157b5565db8a555be45f092406871e01c2a465ce37eb69d177bb3"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bg1.jpg",
+    "sha256": "214e71860542263b2157aa5e8c0230a5de71c08b6821e228a540a6964b850842"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bus.png",
+    "sha256": "5b8fbdb0a84961e0b812c9ed8f109eff0e1d7567ee9d48d321337076d494554e"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bus1.png",
+    "sha256": "61dd1a2a37a79d93e4e098b066742c0ce02f942b358d822d8412d2ee107ab8f8"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bus10.png",
+    "sha256": "72d72a2de90a487bbe97a3f9be7b0e0168957c1c0cb70259a291df65aef4a55e"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bus2.png",
+    "sha256": "e51595f3dd33c8ea64022e9bddb1705587d0ad3c6ccd846619628c55427546bc"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bus3.png",
+    "sha256": "d88195c4b37882e3768459e659d3562402b7f734d3f8e223b301c5556d9d617f"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bus4.png",
+    "sha256": "c1b33cf360bc27f1e98237bb373bec2ea9d85c597e8b42690e07c277ce5d71c0"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bus5.png",
+    "sha256": "3ddcd98aa81bdab34760757bcc14eef8e0b86f5a86aaac9d81f5f6937f0be035"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bus6.png",
+    "sha256": "9710f510a0cfaf7d5ab06cef110c0085882756a8b44a238762b7d0b3aeb74077"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bus7.png",
+    "sha256": "f902013e01f4927630564b42fafedebb1598d342cc8b055474d41a9038c5d89f"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bus8.png",
+    "sha256": "0b3d87bad18a8ceed03001862b47fe43e4f005c3c56d11927e2adf04080c6508"
+  },
+  {
+    "path": "frontend/user-app/src/assets/bus9.png",
+    "sha256": "5852e43c3f3e3237f1539693198459404f49ccb322330a8cab6611a0d6f69bad"
+  },
+  {
+    "path": "frontend/user-app/src/assets/logo.png",
+    "sha256": "26415443e1ff2270ffef570bf591ccc4ed6fd4769b3f0adb6622b7fd0f790622"
+  },
+  {
+    "path": "frontend/user-app/src/assets/react.svg",
+    "sha256": "35ef61ed53b323ae94a16a8ec659b3d0af3880698791133f23b084085ab1c2e5"
+  },
+  {
+    "path": "frontend/user-app/src/assets/save.png",
+    "sha256": "c5793272590adb8c8f811f3b7e8049b0e4989d51a45fd506bb698efdf18f4079"
+  },
+  {
+    "path": "frontend/user-app/src/components/about/About.jsx",
+    "sha256": "83a23516b1d8a6dcf8068b527b58148e8d1828ac42fe16b9eecae54ea6f1e646"
+  },
+  {
+    "path": "frontend/user-app/src/components/booking_section/BookingSection.jsx",
+    "sha256": "99f655270f0686041f9b3e0e57e9abac0219d1b3250e56c56a527bc3f1ee5dc9"
+  },
+  {
+    "path": "frontend/user-app/src/components/buses/Buses.jsx",
+    "sha256": "2d0633d3890446977e92fa8b3dc030bb2c86e653f804c9609a7d0d84df072019"
+  },
+  {
+    "path": "frontend/user-app/src/components/footer/Footer.jsx",
+    "sha256": "ce967d40f59723814a8f528dc229a48c8f735a84f58e9ab8c52b1e397e544a8b"
+  },
+  {
+    "path": "frontend/user-app/src/components/navbar/Navbar.jsx",
+    "sha256": "16fbb5417baf9bbff1a1e1c27e4cb93a43dc2cdcfaa4617a0d065821d4a54eed"
+  },
+  {
+    "path": "frontend/user-app/src/components/route_schedule/Route_schedule.css",
+    "sha256": "9ff0e89666e3c9f5a768ff57960a2c2909a9a72d570f3b781322e5f2fdb146b1"
+  },
+  {
+    "path": "frontend/user-app/src/components/route_schedule/Route_schedule.jsx",
+    "sha256": "2899223242b2551d999ebc70d7c9b615a852e0f38c38be5d368e2c007b36d9ca"
+  },
+  {
+    "path": "frontend/user-app/src/components/ui/alert.jsx",
+    "sha256": "cd3bc45b43929f03241aac6b9da1ddcef3b7b712b98fd80b905ba95ea6f2bf97"
+  },
+  {
+    "path": "frontend/user-app/src/components/ui/button.jsx",
+    "sha256": "4be0db1f2d5632ffe9e40c61ff649e681fbd4787ca1c845804e18b0ec133f2f4"
+  },
+  {
+    "path": "frontend/user-app/src/components/ui/card.jsx",
+    "sha256": "6ad4fda75a361d81d06c0c3a37fc826ac8273b9e393f827aaed9e37aefb5095b"
+  },
+  {
+    "path": "frontend/user-app/src/components/ui/input.jsx",
+    "sha256": "7297bd97ad6d3f0bf32c8b19af9022ab27dc89b9d9acdab78d62c0458e66c060"
+  },
+  {
+    "path": "frontend/user-app/src/index.css",
+    "sha256": "097c639b9bc0057e5937f10798d4da14d5b99b21082b57904281b6134b615b1b"
+  },
+  {
+    "path": "frontend/user-app/src/main.jsx",
+    "sha256": "acb24feb3540b5ee687f5a65bdbb81fe3644aa19da89256bc24b18d8ee010410"
+  },
+  {
+    "path": "frontend/user-app/src/services/LocationService.ts",
+    "sha256": "f55d092d89f8fa9c78c9baaaf672bb2ce0f1480f175d2f9eec681eab72c853a8"
+  },
+  {
+    "path": "frontend/user-app/src/services/SeatBookService.ts",
+    "sha256": "3cd803892a59142026b7ffb8cc0036653fc483752ac5d1a1613bbdff0e4cadbf"
+  },
+  {
+    "path": "frontend/user-app/src/services/TimeService.ts",
+    "sha256": "83037916bd4938d325a39b88af41623d91682ccafaa0af38fb502110f3534100"
+  },
+  {
+    "path": "frontend/user-app/src/services/TripService.ts",
+    "sha256": "c6b68d52a67e7aed6fbfc6996a338a4899324b68e4df98ee57f8454acf35164f"
+  },
+  {
+    "path": "frontend/user-app/tailwind.config.js",
+    "sha256": "3dd3712212acbc67849a13a9f1401527495e09a1a12e1c417fac6b4ecf1fe6d4"
+  },
+  {
+    "path": "frontend/user-app/vite.config.js",
+    "sha256": "117631139acd1512e3aa8ed316851ea13a2c905b3cbabcd1c7e06cf3aa16f113"
+  }
+]

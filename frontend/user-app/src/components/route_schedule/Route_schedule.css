@@ -1,0 +1,35 @@
+/* src/components/route_schedule/Route_schedule.css */
+.route-schedule {
+    padding: 20px;
+  }
+  
+  .route-schedule h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .route-schedule table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+  }
+  
+  .route-schedule th, .route-schedule td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .route-schedule th {
+    background-color: #f2f2f2;
+  }
+  
+  .route-schedule ul {
+    padding-left: 20px;
+    margin: 0;
+  }
+  
+  .route-schedule ul li {
+    list-style-type: none;
+  }
+  
