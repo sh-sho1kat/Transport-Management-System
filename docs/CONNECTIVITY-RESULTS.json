@@ -1,0 +1,14 @@
+{
+  "passed": 9,
+  "checks": [
+    "Backend health and database health",
+    "ADMIN credentials and session",
+    "DRIVER credentials and session",
+    "PASSENGER credentials and session",
+    "Hold, booking, and identical retry",
+    "Booking cancellation",
+    "Passenger blocked from administrator endpoint",
+    "Frontend proxy, CSRF and admin session",
+    "Frontend HTML on port 5178"
+  ]
+}

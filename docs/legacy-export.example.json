@@ -1,0 +1,5 @@
+{
+  "trips": [{"_id":{"$oid":"507f1f77bcf86cd799439011"},"tripID":"DEMO-OLD-1","busID":"OLD-01","startlocation":"Old Central","destination":"Old Port","date":{"$date":"2025-01-01T00:00:00Z"},"departuretime":"09:00 AM"}],
+  "seatCollections": {"DEMO-OLD-1":[{"_id":"old-seat-1","seatNo":"A1","bookingStatus":"booked","studentId":"FICTIONAL-001","studentMail":"historical@example.test","bookingDate":{"$date":"2024-12-30T00:00:00Z"},"bookingTime":"10:30 AM"},{"_id":"old-seat-2","seatNo":"A2","bookingStatus":"unbooked"}]},
+  "users":[],"locations":[{"location":"Old Central"},{"location":"Old Port"}],"times":[{"time":"09:00 AM"}]
+}

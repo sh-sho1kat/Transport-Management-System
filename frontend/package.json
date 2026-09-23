@@ -1,0 +1,22 @@
+{
+  "name": "wayline-web",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,css}\""
+  },
+  "dependencies": {
+    "lucide-react": "0.468.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "4.7.0",
+    "prettier": "3.6.2",
+    "vite": "^6.4.3"
+  }
+}

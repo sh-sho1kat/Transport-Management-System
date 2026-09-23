@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.tms.OperationsIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 44.72 s -- in com.tms.OperationsIntegrationTest
