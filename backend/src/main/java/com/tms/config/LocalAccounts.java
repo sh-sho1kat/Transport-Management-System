@@ -13,6 +13,13 @@ public class LocalAccounts {
   @Bean
   ApplicationRunner initializeLocalAccounts(AccountRepository accounts, AccountService service) {
     return args -> {
+      if (!accounts.existsByEmail("counter.demo@example.test"))
+        service.create(
+            "counter.demo@example.test",
+            "DemoPass123!",
+            "Demo Counter Staff",
+            "000-DEMO-COUNTER",
+            Role.COUNTER_STAFF);
       if (!accounts.existsByEmail("passenger.demo@example.test"))
         service.create(
             "passenger.demo@example.test",

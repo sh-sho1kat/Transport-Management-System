@@ -40,7 +40,7 @@ public class TripController {
     return service.seats(id);
   }
 
-  @GetMapping("/admin/trips")
+  @GetMapping({"/admin/trips", "/counter/trips"})
   public PageResult<TripView> all(
       @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size) {
     return service.adminTrips(page, size);
@@ -78,7 +78,11 @@ public class TripController {
     return service.assigned();
   }
 
-  @GetMapping({"/admin/trips/{id}/manifest", "/driver/trips/{id}/manifest"})
+  @GetMapping({
+    "/admin/trips/{id}/manifest",
+    "/driver/trips/{id}/manifest",
+    "/counter/trips/{id}/manifest"
+  })
   public List<BookingView> manifest(@PathVariable UUID id) {
     return reservations.manifest(id);
   }

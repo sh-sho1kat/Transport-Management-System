@@ -84,7 +84,9 @@ public final class Responses {
       Instant createdAt,
       Instant cancelledAt,
       String cancellationReason,
-      int cancellationHours) {}
+      int cancellationHours,
+      String salesChannel,
+      Instant paymentUpdatedAt) {}
 
   public record Confirmation(BookingView booking, boolean replayed) {}
 

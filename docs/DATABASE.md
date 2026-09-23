@@ -1,3 +1,5 @@
+> Updated: counter staff, walk-in tickets, cash collection/refunds, and fare updates are documented in [Counter operations](COUNTER-OPERATIONS.md).
+
 # PostgreSQL data model
 
 UUID primary keys identify domain records; foreign keys use UUIDs rather than email or registration text. Timestamps are `timestamptz` and represented as UTC instants. Monetary amounts are integer minor units with an ISO currency code. Flyway V1 is the authoritative schema.

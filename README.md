@@ -1,3 +1,5 @@
+> Updated: counter staff, walk-in tickets, cash collection/refunds, and fare updates are documented in [Counter operations](docs/COUNTER-OPERATIONS.md).
+
 # Wayline — Local Development Edition
 
 General bus reservation and fleet management with **React + Spring Boot + PostgreSQL**.
@@ -40,7 +42,7 @@ Docker configuration is removed. Local configuration is classpath-based; `.env` 
 - Assigned-driver manifests, CSV exports, occupancy and booking-value reports, printable tickets, and responsive role-aware screens.
 - Flyway schema migrations, 19 PostgreSQL integration tests, API contract checking, container configuration, and fictional demo seeding.
 
-Payments are **PAY_ON_BOARD / UNPAID**. Booked value is not collected revenue. Ticket printing uses the browser's Print/Save as PDF function; automated ticket email/PDF delivery and payment processing are outside this release.
+Staff can record full cash collection at the counter or boarding, payment corrections, and completed cash refunds. Booked value is not collected revenue. Ticket printing uses the browser's Print/Save as PDF function; automated ticket email/PDF delivery and payment processing are outside this release.
 
 ## Documentation and API testing
 

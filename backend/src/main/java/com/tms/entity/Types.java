@@ -6,7 +6,8 @@ public final class Types {
   public enum Role {
     PASSENGER,
     ADMIN,
-    DRIVER
+    DRIVER,
+    COUNTER_STAFF
   }
 
   public enum TripStatus {

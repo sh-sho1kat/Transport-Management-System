@@ -8,6 +8,50 @@ import java.util.*;
 @Entity
 @Table(name = "bookings")
 public class Booking extends BaseEntity {
+  private String salesChannel = "ONLINE";
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "sold_by_id")
+  private Account soldBy;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "payment_updated_by_id")
+  private Account paymentUpdatedBy;
+
+  private Instant paymentUpdatedAt;
+
+  public String getSalesChannel() {
+    return salesChannel;
+  }
+
+  public void setSalesChannel(String value) {
+    salesChannel = value;
+  }
+
+  public Account getSoldBy() {
+    return soldBy;
+  }
+
+  public void setSoldBy(Account value) {
+    soldBy = value;
+  }
+
+  public Account getPaymentUpdatedBy() {
+    return paymentUpdatedBy;
+  }
+
+  public void setPaymentUpdatedBy(Account value) {
+    paymentUpdatedBy = value;
+  }
+
+  public Instant getPaymentUpdatedAt() {
+    return paymentUpdatedAt;
+  }
+
+  public void setPaymentUpdatedAt(Instant value) {
+    paymentUpdatedAt = value;
+  }
+
   private String reference;
 
   public String getReference() {

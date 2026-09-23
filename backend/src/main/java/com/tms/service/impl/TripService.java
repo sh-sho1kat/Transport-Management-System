@@ -130,7 +130,9 @@ public class TripService implements SchedulingService {
   }
 
   public PageResult<TripView> adminTrips(int page, int size) {
-    current.require(Role.ADMIN);
+    var actor = current.get();
+    if (actor.getRole() != Role.ADMIN && actor.getRole() != Role.COUNTER_STAFF)
+      throw new ApiException(403, "FORBIDDEN", "Staff access required.");
     return Views.page(trips.findAll(paging(page, size, "departureAt")), Views::trip);
   }
 

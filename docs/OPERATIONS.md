@@ -33,7 +33,7 @@ Keep backups private and test restoring into a different empty database. Do not 
 
 Sessions and rate limits live in the backend process. Restarting signs users out; it does not erase bookings. Login rotates the session cookie. State-changing API calls require CSRF, including Postman calls; the supplied collection handles it.
 
-The local profile disables mail. Password recovery does not deliver messages until a real SMTP server is configured; no mail container is included. The app does not collect payments. All confirmed reservations remain PAY_ON_BOARD / UNPAID.
+The local profile disables mail. Password recovery does not deliver messages until a real SMTP server is configured; no mail container is included. The app records cash collected or refunded outside the application; it does not process electronic payments. Online reservations start unpaid. See [Counter operations](COUNTER-OPERATIONS.md) for collection and refund controls.
 
 Default policy: 5-minute holds, 4 seats, 2-hour cancellation cutoff, 30-minute turnaround. Startup accepts hold duration 1–60 minutes, seat limit 1–4, cutoff 0–168 hours, turnaround 0–1440 minutes. The UI displays the standard four-seat limit; a lower server limit is enforced with an error.
 

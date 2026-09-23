@@ -37,6 +37,7 @@ const menus = {
     ["audit", "Activity log", History],
   ],
   DRIVER: [["operations", "Assigned trips", CalendarDays]],
+  COUNTER_STAFF: [["operations", "Ticket counter", Ticket]],
 };
 export default function App() {
   const [user, setUser] = useState(null),
@@ -185,7 +186,10 @@ export default function App() {
           ) : user?.role === "PASSENGER" && page === "bookings" ? (
             <Bookings />
           ) : user && page === "operations" ? (
-            <Operations driver={user.role === "DRIVER"} />
+            <Operations
+              driver={user.role === "DRIVER"}
+              counter={user.role === "COUNTER_STAFF"}
+            />
           ) : user?.role === "ADMIN" &&
             ["buses", "routes", "stops", "staff"].includes(page) ? (
             <Fleet key={page} kind={page} />

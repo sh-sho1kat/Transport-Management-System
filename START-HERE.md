@@ -1,3 +1,5 @@
+> Updated: counter staff, walk-in tickets, cash collection/refunds, and fare updates are documented in [Counter operations](docs/COUNTER-OPERATIONS.md).
+
 # Run locally: IntelliJ + npm + DBeaver + Postman
 
 Docker files have been removed. This setup runs directly on your machine. The steps below target your Linux environment.

@@ -3,7 +3,7 @@
   "info": {
     "title": "Wayline Bus Operations API",
     "version": "2.0.0",
-    "description": "Single-operator bus reservations. UUID identifiers; UTC timestamps; integer currency minor units. PAY_ON_BOARD is UNPAID. All mutation requests require a CSRF token, including login. Exact CORS origins only. Page size 1–100. Resource catalog lists are unpaginated for a small operator."
+    "description": "Single-operator bus reservations. UUID identifiers; UTC timestamps; integer currency minor units. Counter sales and cash payment recording are supported; this API does not transfer money. All mutation requests require a CSRF token, including login. Exact CORS origins only. Page size 1–100. Resource catalog lists are unpaginated for a small operator."
   },
   "servers": [
     {
@@ -1733,7 +1733,7 @@
     "/api/v1/bookings/{id}": {
       "get": {
         "summary": "GET /bookings/{id}",
-        "description": "Access: owner or ADMIN. Service-level ownership and state checks also apply.",
+        "description": "Access: owner, ADMIN, or COUNTER_STAFF. Service-level ownership and state checks also apply.",
         "tags": [
           "Booking"
         ],
@@ -1840,7 +1840,7 @@
     "/api/v1/bookings/{id}/ticket": {
       "get": {
         "summary": "GET /bookings/{id}/ticket",
-        "description": "Access: owner or ADMIN. Service-level ownership and state checks also apply.",
+        "description": "Access: owner, ADMIN, or COUNTER_STAFF. Service-level ownership and state checks also apply.",
         "tags": [
           "Booking"
         ],
@@ -1947,7 +1947,7 @@
     "/api/v1/bookings/{id}/cancel": {
       "post": {
         "summary": "POST /bookings/{id}/cancel",
-        "description": "Access: owner or ADMIN. Service-level ownership and state checks also apply. Get /auth/csrf first, retain the session cookie, and send the returned token in X-CSRF-TOKEN.",
+        "description": "Access: owner, ADMIN, or COUNTER_STAFF. Service-level ownership and state checks also apply. Get /auth/csrf first, retain the session cookie, and send the returned token in X-CSRF-TOKEN.",
         "tags": [
           "Booking"
         ],
@@ -3130,6 +3130,385 @@
         }
       }
     },
+    "/api/v1/counter/bookings": {
+      "post": {
+        "summary": "POST /counter/bookings",
+        "description": "Access: ADMIN or COUNTER_STAFF. Service-level ownership and state checks also apply. Get /auth/csrf first, retain the session cookie, and send the returned token in X-CSRF-TOKEN.",
+        "tags": [
+          "Counter"
+        ],
+        "security": [
+          {
+            "SessionCookie": [],
+            "CsrfHeader": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{8,100}$"
+            },
+            "description": "Persist one key and identical request body until confirmation is resolved. Same key with another body returns 409."
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingView"
+                }
+              }
+            },
+            "headers": {
+              "Idempotent-Replayed": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Idempotent replay; same booking ID, with current booking state.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingView"
+                }
+              }
+            },
+            "headers": {
+              "Idempotent-Replayed": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation or malformed input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session absent or revoked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Role denied or invalid CSRF token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or concealed resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Seat, schedule, state, or idempotency conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CounterSale"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/bookings/{id}/payment": {
+      "patch": {
+        "summary": "PATCH /bookings/{id}/payment",
+        "description": "Access: ADMIN, COUNTER_STAFF, or assigned DRIVER. Service-level ownership and state checks also apply. Get /auth/csrf first, retain the session cookie, and send the returned token in X-CSRF-TOKEN.",
+        "tags": [
+          "Counter"
+        ],
+        "security": [
+          {
+            "SessionCookie": [],
+            "CsrfHeader": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingView"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation or malformed input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session absent or revoked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Role denied or invalid CSRF token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or concealed resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Seat, schedule, state, or idempotency conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentUpdate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/trips/{id}/fare": {
+      "patch": {
+        "summary": "PATCH /admin/trips/{id}/fare",
+        "description": "Access: ADMIN. Service-level ownership and state checks also apply. Get /auth/csrf first, retain the session cookie, and send the returned token in X-CSRF-TOKEN.",
+        "tags": [
+          "Counter"
+        ],
+        "security": [
+          {
+            "SessionCookie": [],
+            "CsrfHeader": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TripView"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation or malformed input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session absent or revoked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Role denied or invalid CSRF token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or concealed resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Seat, schedule, state, or idempotency conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FareUpdate"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/admin/reports/occupancy": {
       "get": {
         "summary": "GET /reports/occupancy",
@@ -3938,6 +4317,125 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/TripInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/counter/trips": {
+      "get": {
+        "summary": "GET /counter/trips",
+        "description": "Access: ADMIN or COUNTER_STAFF. Service-level ownership and state checks also apply.",
+        "tags": [
+          "Trip"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageTripView"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation or malformed input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session absent or revoked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Role denied or invalid CSRF token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or concealed resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Seat, schedule, state, or idempotency conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           }
@@ -4843,6 +5341,116 @@
           }
         }
       }
+    },
+    "/api/v1/counter/trips/{id}/manifest": {
+      "get": {
+        "summary": "GET /counter/trips/{id}/manifest",
+        "description": "Access: ADMIN or COUNTER_STAFF. Service-level ownership and state checks also apply.",
+        "tags": [
+          "Trip"
+        ],
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingView"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation or malformed input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session absent or revoked",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Role denied or invalid CSRF token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Missing or concealed resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Seat, schedule, state, or idempotency conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -4864,7 +5472,8 @@
         "enum": [
           "PASSENGER",
           "ADMIN",
-          "DRIVER"
+          "DRIVER",
+          "COUNTER_STAFF"
         ]
       },
       "TripStatus": {
@@ -5282,6 +5891,102 @@
           "contactName",
           "contactEmail",
           "contactPhone"
+        ],
+        "additionalProperties": false
+      },
+      "CounterSale": {
+        "type": "object",
+        "properties": {
+          "tripId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "seatNos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 4,
+            "minItems": 1
+          },
+          "contactName": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          "contactEmail": {
+            "type": "string",
+            "maxLength": 254,
+            "format": "email"
+          },
+          "contactPhone": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 1
+          },
+          "paymentStatus": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedAmountMinor": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1,
+            "maximum": 400000000
+          }
+        },
+        "required": [
+          "tripId",
+          "seatNos",
+          "contactName",
+          "contactPhone",
+          "paymentStatus",
+          "expectedAmountMinor"
+        ],
+        "additionalProperties": false
+      },
+      "PaymentUpdate": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedStatus": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 180,
+            "minLength": 1
+          }
+        },
+        "required": [
+          "status",
+          "expectedStatus",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "FareUpdate": {
+        "type": "object",
+        "properties": {
+          "fareMinor": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1,
+            "maximum": 100000000
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 180,
+            "minLength": 1
+          }
+        },
+        "required": [
+          "fareMinor",
+          "reason"
         ],
         "additionalProperties": false
       },
@@ -5769,6 +6474,13 @@
           "cancellationHours": {
             "type": "integer",
             "format": "int32"
+          },
+          "salesChannel": {
+            "type": "string"
+          },
+          "paymentUpdatedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
@@ -5790,7 +6502,9 @@
           "createdAt",
           "cancelledAt",
           "cancellationReason",
-          "cancellationHours"
+          "cancellationHours",
+          "salesChannel",
+          "paymentUpdatedAt"
         ]
       },
       "Occupancy": {

@@ -1,3 +1,5 @@
+> Updated: counter staff, walk-in tickets, cash collection/refunds, and fare updates are documented in [Counter operations](docs/COUNTER-OPERATIONS.md).
+
 # Architecture and module mapping
 
 ## Structure

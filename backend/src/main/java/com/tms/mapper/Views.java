@@ -91,7 +91,9 @@ public final class Views {
         b.getCreatedAt(),
         b.getCancelledAt(),
         b.getCancellationReason(),
-        b.getCancellationHours());
+        b.getCancellationHours(),
+        b.getSalesChannel(),
+        b.getPaymentUpdatedAt());
   }
 
   private static List<String> labels(List<TripSeat> seats) {

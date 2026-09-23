@@ -241,10 +241,145 @@ public class BookingService implements ReservationService {
         Views::booking);
   }
 
+  private Account counter() {
+    Account a = current.get();
+    if (a.getRole() != Role.ADMIN && a.getRole() != Role.COUNTER_STAFF)
+      throw new ApiException(403, "FORBIDDEN", "Counter staff access required.");
+    return a;
+  }
+
+  public Confirmation counterSale(String key, CounterSale r) {
+    Account a = counter();
+    a = accounts.lockById(a.getId()).orElseThrow(ApiException::missing);
+    if (key == null || !key.matches("[A-Za-z0-9_-]{8,100}"))
+      throw ApiException.invalid(
+          "Use an Idempotency-Key of 8–100 letters, digits, underscores or hyphens.");
+    String hash = AccountService.hash("COUNTER|" + r.toString());
+    var previous = keys.findByActorIdAndRequestKey(a.getId(), key);
+    if (previous.isPresent()) {
+      if (!previous.get().getRequestHash().equals(hash))
+        throw ApiException.conflict(
+            "IDEMPOTENCY_CONFLICT", "This key was used with a different request.");
+      return new Confirmation(Views.booking(previous.get().getBooking()), true);
+    }
+    Trip t = lock(r.tripId());
+    // Counter sales remain open until departure, even after online sales close.
+    if (t.getStatus() != TripStatus.PUBLISHED || !clock.instant().isBefore(t.getDepartureAt()))
+      throw ApiException.conflict("SALES_CLOSED", "Counter sales close at departure.");
+    expire(t.getId());
+    if (r.seatNos().isEmpty()
+        || r.seatNos().size() > maxSeats
+        || new HashSet<>(r.seatNos()).size() != r.seatNos().size())
+      throw ApiException.invalid("Select distinct seats within the booking limit.");
+    var selected =
+        seats.findByTripIdOrderByRowNumberAscColumnNumberAsc(t.getId()).stream()
+            .filter(s -> r.seatNos().contains(s.getLabel()))
+            .toList();
+    if (selected.size() != r.seatNos().size()
+        || selected.stream().anyMatch(s -> s.getStatus() != SeatStatus.AVAILABLE))
+      throw ApiException.conflict(
+          "SEATS_UNAVAILABLE", "One or more selected seats are unavailable.");
+    long amount = Math.multiplyExact(t.getFareMinor(), selected.size());
+    if (amount != r.expectedAmountMinor())
+      throw ApiException.conflict(
+          "FARE_CHANGED", "The fare changed. Refresh and confirm the new total.");
+    Booking b = new Booking();
+    b.setReference("B-" + UUID.randomUUID().toString().replace("-", ""));
+    b.setTrip(t);
+    b.setSalesChannel("COUNTER");
+    b.setSoldBy(a);
+    b.setAmountMinor(amount);
+    b.setCurrency(t.getCurrency());
+    b.setContactName(r.contactName().trim());
+    b.setContactEmail(
+        r.contactEmail() == null ? "" : r.contactEmail().trim().toLowerCase(Locale.ROOT));
+    b.setContactPhone(r.contactPhone().trim());
+    b.setStatus(BookingStatus.CONFIRMED);
+    b.setPaymentStatus(r.paymentStatus());
+    b.setPaymentMethod(r.paymentStatus().equals("PAID") ? "CASH_COUNTER" : "PAY_ON_BOARD");
+    if (r.paymentStatus().equals("PAID")) {
+      b.setPaymentUpdatedBy(a);
+      b.setPaymentUpdatedAt(clock.instant());
+    }
+    b.setOriginName(t.getOriginName());
+    b.setDestinationName(t.getDestinationName());
+    b.setDepartureAt(t.getDepartureAt());
+    b.setCancellationHours(t.getCancellationHours());
+    b.setSeats(new ArrayList<>(selected));
+    bookings.saveAndFlush(b);
+    for (var s : selected) {
+      s.setBooking(b);
+      s.setStatus(SeatStatus.BOOKED);
+    }
+    IdempotencyRecord record = new IdempotencyRecord();
+    record.setActor(a);
+    record.setRequestKey(key);
+    record.setRequestHash(hash);
+    record.setBooking(b);
+    keys.save(record);
+    audit.record(a, "COUNTER_SALE", b.getId(), "Cash status: " + r.paymentStatus());
+    seats.flush();
+    return new Confirmation(Views.booking(b), false);
+  }
+
+  public BookingView payment(UUID id, PaymentUpdate r) {
+    Account a = current.get();
+    if (!Set.of(Role.ADMIN, Role.COUNTER_STAFF, Role.DRIVER).contains(a.getRole()))
+      throw new ApiException(403, "FORBIDDEN", "Only authorized staff can record payments.");
+    Booking b = bookings.findById(id).orElseThrow(ApiException::missing);
+    Trip t = lock(b.getTrip().getId());
+    em.refresh(b);
+    if (a.getRole() == Role.DRIVER
+        && (!t.getDriver().getId().equals(a.getId())
+            || !Set.of(TripStatus.PUBLISHED, TripStatus.DEPARTED).contains(t.getStatus())))
+      throw new ApiException(403, "FORBIDDEN", "Only your active assigned trips can be updated.");
+    String before = b.getPaymentStatus();
+    if (!before.equals(r.expectedStatus()))
+      throw ApiException.conflict("PAYMENT_CHANGED", "Payment changed. Refresh before updating.");
+    boolean collect =
+        b.getStatus() == BookingStatus.CONFIRMED
+            && before.equals("UNPAID")
+            && r.status().equals("PAID");
+    boolean correct =
+        b.getStatus() == BookingStatus.CONFIRMED
+            && before.equals("PAID")
+            && r.status().equals("UNPAID")
+            && a.getRole() == Role.ADMIN;
+    boolean refund =
+        b.getStatus() == BookingStatus.CANCELLED
+            && before.equals("REFUND_DUE")
+            && r.status().equals("REFUNDED")
+            && a.getRole() != Role.DRIVER;
+    if (!collect && !correct && !refund)
+      throw ApiException.conflict(
+          "INVALID_PAYMENT_TRANSITION", "This payment change is not allowed.");
+    b.setPaymentStatus(r.status());
+    if (collect) b.setPaymentMethod(a.getRole() == Role.DRIVER ? "CASH_ON_BOARD" : "CASH_COUNTER");
+    if (correct) b.setPaymentMethod("PAY_ON_BOARD");
+    b.setPaymentUpdatedBy(a);
+    b.setPaymentUpdatedAt(clock.instant());
+    audit.record(a, "PAYMENT_UPDATED", id, before + " -> " + r.status() + ": " + r.reason());
+    return Views.booking(b);
+  }
+
+  public TripView fare(UUID id, FareUpdate r) {
+    Account a = current.require(Role.ADMIN);
+    Trip t = lock(id);
+    if (!Set.of(TripStatus.DRAFT, TripStatus.PUBLISHED).contains(t.getStatus())
+        || !clock.instant().isBefore(t.getDepartureAt()))
+      throw ApiException.conflict("FARE_CLOSED", "Fares can only change before departure.");
+    long before = t.getFareMinor();
+    t.setFareMinor(r.fareMinor());
+    audit.record(a, "FARE_UPDATED", id, before + " -> " + r.fareMinor() + ": " + r.reason());
+    return Views.trip(t);
+  }
+
   private Booking accessible(UUID id) {
     Account a = current.get();
     Booking b = bookings.findById(id).orElseThrow(ApiException::missing);
-    if (a.getRole() != Role.ADMIN && !b.getPassenger().getId().equals(a.getId()))
+    if (a.getRole() != Role.ADMIN
+        && a.getRole() != Role.COUNTER_STAFF
+        && (b.getPassenger() == null || !b.getPassenger().getId().equals(a.getId())))
       throw ApiException.missing();
     return b;
   }
@@ -259,6 +394,7 @@ public class BookingService implements ReservationService {
       s.setBooking(null);
       s.setStatus(SeatStatus.AVAILABLE);
     }
+    if (b.getPaymentStatus().equals("PAID")) b.setPaymentStatus("REFUND_DUE");
     b.setStatus(BookingStatus.CANCELLED);
     b.setCancelledAt(clock.instant());
     b.setCancellationReason(reason);
@@ -285,10 +421,11 @@ public class BookingService implements ReservationService {
     Account a = current.get();
     Trip t = trips.findById(id).orElseThrow(ApiException::missing);
     if (a.getRole() != Role.ADMIN
+        && a.getRole() != Role.COUNTER_STAFF
         && (a.getRole() != Role.DRIVER || !t.getDriver().getId().equals(a.getId())))
       throw ApiException.missing();
     return bookings.findByTripIdOrderByCreatedAt(id).stream()
-        .filter(b -> b.getStatus() == BookingStatus.CONFIRMED)
+        .filter(b -> a.getRole() != Role.DRIVER || b.getStatus() == BookingStatus.CONFIRMED)
         .map(Views::booking)
         .toList();
   }

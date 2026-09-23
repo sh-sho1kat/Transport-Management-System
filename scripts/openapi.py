@@ -53,7 +53,7 @@ for file in sorted((java/'controller').glob('*.java')):
         for suffix in re.findall(r'"([^"]+)"',mapped):
             path=base+suffix
             public='/auth/' in path or verb=='get' and (path=='/api/v1/stops' or path.startswith('/api/v1/trips'))
-            role='ADMIN' if '/admin/' in path else 'assigned DRIVER' if '/driver/' in path else 'PASSENGER (owner)' if '/holds' in path or path=='/api/v1/bookings' else 'owner or ADMIN' if '/bookings/' in path else 'authenticated account'
+            role='ADMIN' if '/admin/' in path else 'ADMIN or COUNTER_STAFF' if '/counter/' in path else 'assigned DRIVER' if '/driver/' in path else 'PASSENGER (owner)' if '/holds' in path or path=='/api/v1/bookings' else 'ADMIN, COUNTER_STAFF, or assigned DRIVER' if path.endswith('/payment') else 'owner, ADMIN, or COUNTER_STAFF' if '/bookings/' in path else 'authenticated account'
             security={} if public else {'SessionCookie':[]}
             if verb!='get':security['CsrfHeader']=[]
             operation={'summary':verb.upper()+' '+suffix,'description':('Public endpoint.' if public else 'Access: '+role+'. Service-level ownership and state checks also apply.')+(' Get /auth/csrf first, retain the session cookie, and send the returned token in X-CSRF-TOKEN.' if verb!='get' else ''),'tags':[file.stem.replace('Controller','')],'security':[security] if security else [],'parameters':[],'responses':{}}
@@ -68,15 +68,15 @@ for file in sorted((java/'controller').glob('*.java')):
             request=re.search(r'@RequestBody\s+(\w+)',args)
             if request:operation['requestBody']={'required':True,'content':{'application/json':{'schema':ref(request[1])}}}
             if 'Idempotency-Key' in args:operation['parameters'].append({'name':'Idempotency-Key','in':'header','required':True,'schema':{'type':'string','pattern':'^[A-Za-z0-9_-]{8,100}$'},'description':'Persist one key and identical request body until confirmation is resolved. Same key with another body returns 409.'})
-            code='204' if 'NO_CONTENT' in match[0] else '201' if 'CREATED' in match[0] or verb=='post' and suffix=='/bookings' else '200'
+            code='204' if 'NO_CONTENT' in match[0] else '201' if 'CREATED' in match[0] or verb=='post' and suffix in ('/bookings','/counter/bookings') else '200'
             operation['responses'][code]={'description':'Success'}
             if result!='void':operation['responses'][code]['content']={'application/json':{'schema':schema(result)}}
-            if verb=='post' and suffix=='/bookings':
+            if verb=='post' and suffix in ('/bookings','/counter/bookings'):
                 operation['responses']['200']={'description':'Idempotent replay; same booking ID, with current booking state.','content':{'application/json':{'schema':ref('BookingView')}}}
                 for status in ['200','201']:operation['responses'][status]['headers']={'Idempotent-Replayed':{'schema':{'type':'boolean'}}}
             for status,label in [('400','Validation or malformed input'),('401','Session absent or revoked'),('403','Role denied or invalid CSRF token'),('404','Missing or concealed resource'),('409','Seat, schedule, state, or idempotency conflict'),('429','Rate limit exceeded'),('500','Unexpected server failure')]:operation['responses'][status]={'description':label,'content':{'application/json':{'schema':ref('Error')}}}
             paths.setdefault(path,{})[verb]=operation
-spec={'openapi':'3.0.3','info':{'title':'Wayline Bus Operations API','version':'2.0.0','description':'Single-operator bus reservations. UUID identifiers; UTC timestamps; integer currency minor units. PAY_ON_BOARD is UNPAID. All mutation requests require a CSRF token, including login. Exact CORS origins only. Page size 1–100. Resource catalog lists are unpaginated for a small operator.'},'servers':[{'url':'http://localhost:8088'}],'paths':paths,'components':{'securitySchemes':{'SessionCookie':{'type':'apiKey','in':'cookie','name':'JSESSIONID'},'CsrfHeader':{'type':'apiKey','in':'header','name':'X-CSRF-TOKEN'}},'schemas':schemas}}
+spec={'openapi':'3.0.3','info':{'title':'Wayline Bus Operations API','version':'2.0.0','description':'Single-operator bus reservations. UUID identifiers; UTC timestamps; integer currency minor units. Counter sales and cash payment recording are supported; this API does not transfer money. All mutation requests require a CSRF token, including login. Exact CORS origins only. Page size 1–100. Resource catalog lists are unpaginated for a small operator.'},'servers':[{'url':'http://localhost:8088'}],'paths':paths,'components':{'securitySchemes':{'SessionCookie':{'type':'apiKey','in':'cookie','name':'JSESSIONID'},'CsrfHeader':{'type':'apiKey','in':'header','name':'X-CSRF-TOKEN'}},'schemas':schemas}}
 # Verify every reference resolves, so controller/DTO changes cannot silently produce invalid schemas.
 for name in re.findall(r'#/components/schemas/([\w]+)',json.dumps(spec)):
     assert name in schemas, f'Unknown schema: {name}'

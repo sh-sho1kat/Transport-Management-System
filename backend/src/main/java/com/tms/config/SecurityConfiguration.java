@@ -88,6 +88,8 @@ public class SecurityConfiguration {
                     .permitAll()
                     .requestMatchers("/api/v1/admin/**")
                     .hasRole("ADMIN")
+                    .requestMatchers("/api/v1/counter/**")
+                    .hasAnyRole("ADMIN", "COUNTER_STAFF")
                     .requestMatchers("/api/v1/driver/**")
                     .hasRole("DRIVER")
                     .requestMatchers("/api/v1/**")

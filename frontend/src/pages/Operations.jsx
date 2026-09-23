@@ -12,21 +12,24 @@ import {
   Action,
   ReasonDialog,
 } from "../components/UI";
-export default function Operations({ driver = false }) {
+import { CounterSale, PaymentEditor, FareEditor, TicketView } from "./Counter";
+export default function Operations({ driver = false, counter = false }) {
   const [page, setPage] = useState(null),
     [number, setNumber] = useState(0),
     [error, setError] = useState(null),
     [editing, setEditing] = useState(null),
     [manifest, setManifest] = useState(null),
-    [cancel, setCancel] = useState(null);
-  const prefix = driver ? "/driver" : "/admin";
+    [cancel, setCancel] = useState(null),
+    [sale, setSale] = useState(null),
+    [fare, setFare] = useState(null);
+  const prefix = driver ? "/driver" : counter ? "/counter" : "/admin";
   const refresh = () =>
     api(prefix + "/trips" + (driver ? "" : "?page=" + number))
       .then((p) => setPage(driver ? { items: p } : p))
       .catch(setError);
   useEffect(() => {
     refresh();
-  }, [number, driver]);
+  }, [number, driver, counter]);
   async function act(path, body) {
     try {
       setError(null);
@@ -46,14 +49,20 @@ export default function Operations({ driver = false }) {
           <span className="eyebrow">
             {driver ? "DRIVER WORKSPACE" : "DISPATCH & SCHEDULING"}
           </span>
-          <h1>{driver ? "My assigned trips" : "Trip operations"}</h1>
+          <h1>
+            {driver
+              ? "My assigned trips"
+              : counter
+                ? "Ticket counter"
+                : "Trip operations"}
+          </h1>
           <p>
             {driver
               ? "Your timetable and passenger manifests."
               : "Plan departures, assign your team, and manage reservations."}
           </p>
         </div>
-        {!driver && (
+        {!driver && !counter && (
           <button onClick={() => setEditing({})}>
             <Plus size={17} /> Schedule trip
           </button>
@@ -83,7 +92,22 @@ export default function Operations({ driver = false }) {
                   </p>
                 </div>
                 <div className="actions">
-                  {t.status === "DRAFT" && !driver && (
+                  {!driver &&
+                    t.status === "PUBLISHED" &&
+                    new Date(t.departureAt) > new Date() && (
+                      <button onClick={() => setSale(t)}>
+                        Sell walk-in ticket
+                      </button>
+                    )}
+                  {!driver &&
+                    !counter &&
+                    ["DRAFT", "PUBLISHED"].includes(t.status) &&
+                    new Date(t.departureAt) > new Date() && (
+                      <button className="secondary" onClick={() => setFare(t)}>
+                        Update fare
+                      </button>
+                    )}
+                  {t.status === "DRAFT" && !driver && !counter && (
                     <>
                       <button
                         className="secondary"
@@ -117,7 +141,7 @@ export default function Operations({ driver = false }) {
                       <Users size={16} /> Manifest
                     </Action>
                   )}
-                  {t.status === "PUBLISHED" && (
+                  {t.status === "PUBLISHED" && !counter && (
                     <Action
                       className="secondary"
                       onClick={() =>
@@ -129,7 +153,7 @@ export default function Operations({ driver = false }) {
                       Mark departed
                     </Action>
                   )}
-                  {t.status === "DEPARTED" && (
+                  {t.status === "DEPARTED" && !counter && (
                     <Action
                       onClick={() =>
                         act(prefix + "/trips/" + t.id + "/status", {
@@ -140,14 +164,16 @@ export default function Operations({ driver = false }) {
                       Complete trip
                     </Action>
                   )}
-                  {!driver && ["DRAFT", "PUBLISHED"].includes(t.status) && (
-                    <button
-                      className="text-button danger-text"
-                      onClick={() => setCancel(t)}
-                    >
-                      Cancel trip
-                    </button>
-                  )}
+                  {!driver &&
+                    !counter &&
+                    ["DRAFT", "PUBLISHED"].includes(t.status) && (
+                      <button
+                        className="text-button danger-text"
+                        onClick={() => setCancel(t)}
+                      >
+                        Cancel trip
+                      </button>
+                    )}
                 </div>
               </div>
             </article>
@@ -155,6 +181,20 @@ export default function Operations({ driver = false }) {
         </div>
       )}
       <Pager page={page} onChange={setNumber} />
+      {sale && (
+        <CounterSale
+          trip={sale}
+          onClose={() => setSale(null)}
+          onSaved={refresh}
+        />
+      )}
+      {fare && (
+        <FareEditor
+          trip={fare}
+          onClose={() => setFare(null)}
+          onSaved={refresh}
+        />
+      )}
       {editing && (
         <TripEditor
           value={editing}
@@ -181,7 +221,8 @@ export default function Operations({ driver = false }) {
       {manifest && (
         <Manifest
           value={manifest}
-          admin={!driver}
+          admin={!driver && !counter}
+          counter={counter}
           onClose={() => setManifest(null)}
           onRefresh={async () => {
             setManifest({
@@ -310,8 +351,10 @@ function TripEditor({ value, onClose, onSaved }) {
     </Modal>
   );
 }
-function Manifest({ value, admin, onClose, onRefresh }) {
-  const [cancel, setCancel] = useState(null);
+function Manifest({ value, admin, counter, onClose, onRefresh }) {
+  const [cancel, setCancel] = useState(null),
+    [payment, setPayment] = useState(null),
+    [ticket, setTicket] = useState(null);
   return (
     <Modal title="Passenger manifest" onClose={onClose}>
       <p>
@@ -337,7 +380,7 @@ function Manifest({ value, admin, onClose, onRefresh }) {
         <Download size={16} /> Export CSV
       </button>
       {!value.bookings.length ? (
-        <Empty>No confirmed passengers.</Empty>
+        <Empty>No reservations on this trip.</Empty>
       ) : (
         <div className="table-wrap">
           <table>
@@ -347,7 +390,7 @@ function Manifest({ value, admin, onClose, onRefresh }) {
                 <th>Seats</th>
                 <th>Contact</th>
                 <th>Payment</th>
-                {admin && <th>Action</th>}
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -362,26 +405,73 @@ function Manifest({ value, admin, onClose, onRefresh }) {
                     {b.contactPhone}
                     <small>{b.contactEmail}</small>
                   </td>
-                  <td>{b.paymentStatus}</td>
-                  {admin && (
-                    <td>
+                  <td>
+                    {money(b.amountMinor, b.currency)}
+                    <small>
+                      {b.paymentStatus} · {b.status}
+                    </small>
+                  </td>
+                  <td>
+                    {(admin || counter) && (
+                      <button
+                        className="secondary"
+                        onClick={() => setTicket(b)}
+                      >
+                        Ticket
+                      </button>
+                    )}
+                    {((b.status === "CONFIRMED" &&
+                      b.paymentStatus === "UNPAID" &&
+                      (admin ||
+                        counter ||
+                        ["PUBLISHED", "DEPARTED"].includes(
+                          value.trip.status,
+                        ))) ||
+                      (admin &&
+                        b.status === "CONFIRMED" &&
+                        b.paymentStatus === "PAID") ||
+                      ((admin || counter) &&
+                        b.paymentStatus === "REFUND_DUE")) && (
+                      <button
+                        className="secondary"
+                        onClick={() => setPayment(b)}
+                      >
+                        Update payment
+                      </button>
+                    )}
+                    {(admin || counter) && b.status === "CONFIRMED" && (
                       <button
                         className="text-button danger-text"
                         onClick={() => setCancel(b)}
                       >
                         Cancel booking
                       </button>
-                    </td>
-                  )}
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       )}
+      {payment && (
+        <PaymentEditor
+          booking={payment}
+          admin={admin}
+          onClose={() => setPayment(null)}
+          onSaved={onRefresh}
+        />
+      )}
+      {ticket && (
+        <TicketView booking={ticket} onClose={() => setTicket(null)} />
+      )}
       {cancel && (
         <ReasonDialog
-          title="Administrator cancellation override"
+          title={
+            admin
+              ? "Administrator cancellation override"
+              : "Cancel reservation within policy"
+          }
           onClose={() => setCancel(null)}
           onConfirm={async (reason) => {
             await api("/bookings/" + cancel.id + "/cancel", {

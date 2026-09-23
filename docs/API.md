@@ -1,8 +1,10 @@
+> Updated: counter staff, walk-in tickets, cash collection/refunds, and fare updates are documented in [Counter operations](COUNTER-OPERATIONS.md).
+
 > Local testing: import [the Postman collection](../postman/Wayline-Local.postman_collection.json). Backend port is **8088**. See [START-HERE](../START-HERE.md) for accounts and automatic CSRF handling.
 
 # API guide
 
-The checked-in [OpenAPI 3.0 contract](openapi.json) describes all 44 operations, typed request/response schemas, parameters and roles. Generate it with `python3 scripts/openapi.py`; `--check` detects source/contract drift in CI. It is a development artifact, not a public Swagger administration surface.
+The checked-in [OpenAPI 3.0 contract](openapi.json) describes all 49 operations, typed request/response schemas, parameters and roles. Generate it with `python3 scripts/openapi.py`; `--check` detects source/contract drift in CI. It is a development artifact, not a public Swagger administration surface.
 
 ## Browser authentication
 
@@ -68,7 +70,7 @@ Content-Type: application/json
 
 First success: **201**, `Idempotent-Replayed: false`. Same key and identical payload: **200**, `Idempotent-Replayed: true`, same booking ID/current status. Changed payload: **409 IDEMPOTENCY_CONFLICT**. A consumed or expired hold cannot create another booking. Keep the key and exact body after a timeout; retry them, then inspect history before starting over.
 
-A confirmed ticket contains contact and travel snapshots, seats, reference, amount and policy. `paymentMethod=PAY_ON_BOARD`, `paymentStatus=UNPAID`. No endpoint collects money or claims successful payment.
+A confirmed ticket contains contact and travel snapshots, seats, reference, amount and policy. Online confirmations start with `paymentMethod=PAY_ON_BOARD`, `paymentStatus=UNPAID`. Authorized staff can subsequently record full cash collection. See [Counter operations](COUNTER-OPERATIONS.md) for the payment, refund and fare APIs. No endpoint transfers money.
 
 ## Cancellation and lifecycle
 

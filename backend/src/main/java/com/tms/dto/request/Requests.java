@@ -76,6 +76,23 @@ public final class Requests {
       @NotBlank @Email @Size(max = 254) String contactEmail,
       @NotBlank @Size(max = 30) String contactPhone) {}
 
+  public record CounterSale(
+      @NotNull UUID tripId,
+      @NotEmpty @Size(max = 4) List<@NotBlank @Size(max = 12) String> seatNos,
+      @NotBlank @Size(max = 100) String contactName,
+      @Email @Size(max = 254) String contactEmail,
+      @NotBlank @Size(max = 30) String contactPhone,
+      @NotBlank @Pattern(regexp = "PAID|UNPAID") String paymentStatus,
+      @Min(1) @Max(400000000) long expectedAmountMinor) {}
+
+  public record PaymentUpdate(
+      @NotBlank @Pattern(regexp = "PAID|UNPAID|REFUNDED") String status,
+      @NotBlank @Pattern(regexp = "PAID|UNPAID|REFUND_DUE|REFUNDED") String expectedStatus,
+      @NotBlank @Size(max = 180) String reason) {}
+
+  public record FareUpdate(
+      @Min(1) @Max(100000000) long fareMinor, @NotBlank @Size(max = 180) String reason) {}
+
   public record Reason(@NotBlank @Size(max = 255) String reason) {}
 
   public record Active(boolean active, @NotBlank @Size(max = 255) String reason) {}

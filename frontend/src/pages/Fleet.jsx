@@ -323,6 +323,7 @@ function Editor({ kind, value, stops, onClose, onSaved }) {
             <Field label="Role">
               <select name="role">
                 <option value="DRIVER">Driver</option>
+                <option value="COUNTER_STAFF">Counter staff</option>
                 <option value="ADMIN">Administrator</option>
               </select>
             </Field>

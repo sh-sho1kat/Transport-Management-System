@@ -5,6 +5,12 @@ import com.tms.dto.response.Responses.*;
 import java.util.*;
 
 public interface ReservationService {
+  Confirmation counterSale(String key, CounterSale input);
+
+  BookingView payment(UUID id, PaymentUpdate input);
+
+  TripView fare(UUID id, FareUpdate input);
+
   HoldView hold(HoldInput input);
 
   HoldView holdDetail(UUID id);

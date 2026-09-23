@@ -93,7 +93,10 @@ export default function Bookings() {
               <dt>Total</dt>
               <dd>{money(ticket.amountMinor, ticket.currency)}</dd>
               <dt>Payment</dt>
-              <dd>Pay on board · {ticket.paymentStatus}</dd>
+              <dd>
+                {ticket.paymentMethod.replaceAll("_", " ")} ·{" "}
+                {ticket.paymentStatus}
+              </dd>
               <dt>Cancellation cutoff</dt>
               <dd>
                 {dateTime(
@@ -103,7 +106,9 @@ export default function Bookings() {
               </dd>
             </dl>
             <p className="muted">
-              This confirms your reservation. It is not proof of payment.
+              {ticket.paymentStatus === "PAID"
+                ? "Cash payment recorded by staff."
+                : "Payment status is shown above. An unpaid reservation is not proof of payment."}
             </p>
           </div>
           <button onClick={() => window.print()}>
