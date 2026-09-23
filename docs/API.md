@@ -4,7 +4,7 @@
 
 # API guide
 
-The checked-in [OpenAPI 3.0 contract](openapi.json) describes all 49 operations, typed request/response schemas, parameters and roles. Generate it with `python3 scripts/openapi.py`; `--check` detects source/contract drift in CI. It is a development artifact, not a public Swagger administration surface.
+The checked-in [OpenAPI 3.0 contract](openapi.json) describes all 49 operations, feature-owned typed request/response schemas, parameters and roles. Generate it with `python3 scripts/openapi.py`; `--check` detects source/contract drift in CI. It is a development artifact, not a public Swagger administration surface.
 
 ## Browser authentication
 

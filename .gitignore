@@ -9,3 +9,5 @@ backups/
 *.dump
 
 .local/
+
+backend-next/target/

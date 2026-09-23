@@ -1,3 +1,7 @@
+> Replacement structure: [documentation index](docs/README.md), [Stage 0 run guide](backend-next/README.md), and [implementation roadmap](docs/work/roadmap.md). The current application below remains unchanged.
+
+> Architecture refactor: [feature layout](ARCHITECTURE.md), [extension guide](docs/EXTENDING-THE-SYSTEM.md), and [production prerequisites](docs/PRODUCTION.md).
+
 > Updated: counter staff, walk-in tickets, cash collection/refunds, and fare updates are documented in [Counter operations](docs/COUNTER-OPERATIONS.md).
 
 # Wayline — Local Development Edition

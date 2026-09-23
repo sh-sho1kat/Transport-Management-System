@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: wayline-next
+  profiles:
+    default: dev
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    clean-disabled: true
+    baseline-on-migrate: false
+server:
+  port: ${NEXT_SERVER_PORT:8089}
+  error:
+    include-message: never
+    include-stacktrace: never
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never

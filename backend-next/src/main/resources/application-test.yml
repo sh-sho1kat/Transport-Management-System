@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: ${NEXT_TEST_DB_URL:jdbc:postgresql://127.0.0.1:55433/wayline_next_test}
+    username: ${NEXT_TEST_DB_USER:wayline_next}
+    password: ${NEXT_TEST_DB_PASSWORD:NextDb123!}

@@ -7,7 +7,8 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "format:check": "prettier --check \"src/**/*.{js,jsx,css}\""
+    "format:check": "prettier --check \"src/**/*.{js,jsx,css}\"",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "lucide-react": "0.468.0",

@@ -8,17 +8,18 @@ from pathlib import Path
 root=Path(__file__).resolve().parents[1]
 java=root/'backend/src/main/java/com/tms'
 schemas={}
-for name,values in re.findall(r'enum\s+(\w+)\s*\{([^}]+)\}',(java/'entity/Types.java').read_text()):
-    schemas[name]={'type':'string','enum':[v.strip() for v in values.split(',')]}
+for enum_file in sorted(java.rglob('domain/*.java')):
+    for name,values in re.findall(r'enum\s+(\w+)\s*\{([^}]+)\}',enum_file.read_text()):
+        schemas[name]={'type':'string','enum':[v.strip() for v in values.split(',')]}
 def ref(name):return {'$ref':'#/components/schemas/'+name}
 def schema(t):
     if t.startswith('ResponseEntity<'):return schema(t[15:-1])
     if t.startswith('PageResult<'):return ref('Page'+t[11:-1])
     if t.startswith('List<') or t.startswith('java.util.List<'):return {'type':'array','items':schema(t[t.index('<')+1:-1])}
     return {'String':{'type':'string'},'UUID':{'type':'string','format':'uuid'},'Instant':{'type':'string','format':'date-time'},'LocalDate':{'type':'string','format':'date'},'int':{'type':'integer','format':'int32'},'long':{'type':'integer','format':'int64'},'double':{'type':'number'},'boolean':{'type':'boolean'}}.get(t,ref(t))
-for file in ['dto/request/Requests.java','dto/response/Responses.java']:
-    request='request/' in file
-    for name,body in re.findall(r'public record\s+(\w+)(?:<[^>]+>)?\s*\((.*?)\)\s*\{\s*\}',(java/file).read_text(),re.S):
+for file in sorted([*java.glob('*/dto/*/*.java'), *java.glob('shared/api/request/*.java'), *java.glob('shared/api/response/*.java')]):
+    request=file.parent.name=='request'
+    for name,body in re.findall(r'public record\s+(\w+)(?:<[^>]+>)?\s*\((.*?)\)\s*\{\s*\}',file.read_text(),re.S):
         if name in ('PageResult','Confirmation'):continue
         # Strip annotation argument commas before separating record components.
         marked=re.sub(r'(@\w+)\(([^)]*)\)',lambda m:m[0].replace(',',';'),body)
@@ -45,7 +46,7 @@ for file in ['dto/request/Requests.java','dto/response/Responses.java']:
 for item in ['TripView','BookingView','Occupancy','AuditView']:
     schemas['Page'+item]={'type':'object','required':['items','page','size','totalItems','totalPages'],'properties':{'items':{'type':'array','items':ref(item)},'page':{'type':'integer'},'size':{'type':'integer'},'totalItems':{'type':'integer','format':'int64'},'totalPages':{'type':'integer'}}}
 paths={}
-for file in sorted((java/'controller').glob('*.java')):
+for file in sorted(java.glob('*/controller/*.java')):
     text=file.read_text();base=re.search(r'@RequestMapping\("([^"]+)"\)',text)[1]
     pattern=r'@(Get|Post|Patch|Delete)Mapping\((.*?)\)\s*(?:@ResponseStatus\([^)]+\)\s*)?public\s+([\w<>.?]+)\s+\w+\((.*?)\)\s*\{'
     for match in re.finditer(pattern,text,re.S):

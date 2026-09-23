@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: ${NEXT_DB_URL}
+    username: ${NEXT_DB_USER}
+    password: ${NEXT_DB_PASSWORD}
+# Deployment is blocked until authentication, authorization and release gates are implemented.

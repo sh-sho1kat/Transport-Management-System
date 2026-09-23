@@ -1,0 +1,7 @@
+server:
+  address: 127.0.0.1
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:55433/wayline_next
+    username: wayline_next
+    password: NextDb123!

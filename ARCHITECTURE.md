@@ -1,80 +1,103 @@
-> Updated: counter staff, walk-in tickets, cash collection/refunds, and fare updates are documented in [Counter operations](docs/COUNTER-OPERATIONS.md).
+# Wayline architecture
 
-# Architecture and module mapping
+Wayline is a feature-organized Spring Boot and React monolith with one PostgreSQL database. It remains one backend process and one frontend deployment. Features own their MVC layers; shared code contains only infrastructure and reusable API types. This is a production-oriented foundation, not a claim of high availability or unbounded scale.
 
-## Structure
+## Backend layout
 
 ```text
 backend/src/main/java/com/tms/
-  controller/          HTTP bindings, request validation, status codes
-  dto/request/         Explicit typed input records and validation constraints
-  dto/response/        Safe public, passenger, driver and admin output records
-  entity/              JPA relational entities and lifecycle enums
-  repository/          Spring Data JPA queries and pessimistic locks
-  service/             Domain interfaces, audit, cleanup, rate limiting, reporting
-  service/impl/        Account, fleet, trip and booking business rules
-  mapper/              Entity-to-response conversion within transactions
-  security/            Session principal and current-account/role checks
-  config/              Security, clock and initial administrator
-  exception/           Consistent API failures
-backend/src/main/resources/db/migration/  Versioned SQL schema
-frontend/src/
-  api.js               Cookie/CSRF HTTP client and shared formatting
-  components/          Forms, notices, dialogs and pagination
-  pages/               Auth, journeys, bookings, fleet, operations, reports, profile
+  TmsApplication.java             IntelliJ Run entry point (unchanged)
+  bootstrap/                     Application-wide bean wiring
+  identity/
+    controller/                  Login, profile, recovery, staff endpoints
+    dto/request/, dto/response/  Separate named request/response records
+    domain/                      Role enum
+    entity/, repository/         Accounts and reset tokens
+    security/                    Principal, current account, permission policy
+    service/, mapper/, config/
+  catalog/                       Buses, layouts, stops, routes
+  scheduling/                    Trips, trip inventory, scheduling, fare updates
+  booking/                       Holds, online/counter bookings and cash records
+  reporting/                     Occupancy and reporting API
+  audit/                         Audit records and their repository/service
+  shared/
+    api/                         Pagination, common requests/responses
+    config/                      Validated operator/reservation settings
+    error/                       Exception model and HTTP error translation
+    persistence/                 Base entity and paging validation
+    security/                    Stateless hashing utility
+    web/                         Bounded local rate limiter
 ```
+
+Each feature uses `controller`, `dto`, `service`, `entity`, `repository`, and `mapper` folders where needed. `domain` holds feature enums. A feature does not need empty folders or an interface for every class. Existing interfaces remain useful entry points for controllers and cross-feature coordination.
+
+## Booking responsibilities
+
+| Component | Responsibility |
+|---|---|
+| ReservationService / DefaultReservationService | Stable application facade; delegates to transactional use cases |
+| HoldService | Create, read, release and expire quoted seat holds |
+| BookingService | Online confirmation, history, ownership, cancellation and manifests |
+| CounterSalesService | Accountless walk-in sales and safe repeated requests |
+| PaymentService | Cash collection, corrections and refund recording |
+| SeatInventory | Shared trip lock and hold release/expiry operations; requires an existing transaction |
+| scheduling.service.FareService | Changes future trip prices; never rewrites old quotes |
+
+Controllers validate input and translate HTTP; they do not access repositories or return JPA entities. DTOs are independent top-level records. Feature mappers create explicit response snapshots. Entities/repositories retain their existing database table names, UUID relationships and constraints.
+
+## Dependency rules
 
 ```mermaid
 flowchart LR
-  UI[React view] --> C[Spring MVC controller]
-  C --> S[Transactional service]
-  S --> R[JPA repository]
-  R --> P[(PostgreSQL)]
-  S --> M[DTO mapper]
-  M --> C
-  SEC[Spring Security session and CSRF filters] --> C
+    HTTP[Feature controller] --> API[Service interface or use case]
+    API --> Policy[Identity permissions and resource checks]
+    API --> Repo[Repositories]
+    Repo --> DB[(PostgreSQL)]
+    API --> Mapper[Feature mapper]
+    Mapper --> DTO[Response DTO]
 ```
 
-The frontend is the MVC view. Controllers bind DTOs and delegate; business services own permissions and transactions; repositories manage persistence. Entities are never returned from controllers. Lazy relationships are resolved inside service transactions, with Open Session in View disabled. Constructor injection is used throughout. This is one backend deployment, organized by layer, with clear domain service boundaries.
+1. Controllers call services. They cannot import repositories or persistence entities.
+2. Entity/domain types cannot depend on controllers, application services or DTOs.
+3. Shared code cannot import a feature. General helpers do not live inside unrelated business services.
+4. Business services use permissions instead of hard-coded role comparisons. Identity owns role provisioning and its policy.
+5. Cross-feature changes that must be atomic stay in one Spring transaction. Seat allocation always locks the trip; idempotent sales lock the actor first.
+6. Existing JPA associations cross feature boundaries. Reporting performs intentional cross-feature reads. These are package-level ownership boundaries, not isolated microservices or independently deployable modules.
 
-## Node.js → Spring Boot mapping
+`ArchitectureTest` enforces the first four source-level rules and checks that SeatInventory uses mandatory transaction propagation. These checks complement behavior tests; they do not prove complete modular isolation.
 
-| Original module | New component / behavior |
-|---|---|
-| Express `index.js`, routers | Spring Boot application and typed MVC controllers under `/api/v1` |
-| `locationController`, `locationModel` | `CatalogController`, `FleetService`, `Stop` / `StopRepository` |
-| `timeController`, `timeModel` | Departure, arrival and sales timestamps on `Trip`; a global time-string table is unnecessary |
-| `tripController`, `tripModel` | `TripController`, `TripService`, route/bus/driver foreign keys and trip lifecycle |
-| `seatBookController`, dynamic model factory | `BookingService`, fixed `trip_seats`, `holds`, `bookings`, idempotency records |
-| `userController`, unauthenticated user records | `AuthController`, `AccountService`, `Account`, Spring Security sessions |
-| `EmailPdfService` prototype | SMTP account recovery plus printable ticket view; automatic booking email/PDF delivery remains deferred |
-| Middleware/CORS | `SecurityConfiguration`: exact origins, credentials, session validation and CSRF |
-| Ad hoc errors | `ApiErrors` and structured `Error` DTO |
-| Mongoose validation/casts | Bean Validation, typed DTOs, service rules, PostgreSQL constraints |
-| Two legacy React applications | One React application with passenger/admin/driver navigation and guarded backend access |
+## Permissions
 
-Legacy endpoint compatibility was appropriate for the earlier backend-only migration. This release intentionally replaces that contract and coordinates the frontend changes. There is no fallback write path under `/api/admin`, no student ID identity, no arbitrary Mongo collection selection, and no legacy email credentials in the deployment.
+`identity/security/Permission.java` names business capabilities. `RolePermissions.java` is the explicit role-to-capability policy; adding a Role requires an exhaustive switch entry. Spring authorities and service authorization use those grants. Ownership, driver assignment, trip state and time limits remain service checks: a capability never replaces resource scope.
 
-## Security and ownership
+`python3 scripts/permissions.py` generates the frontend grant file. `--check` detects drift. UI hiding is only presentation; backend authorization remains authoritative. Existing role names and User JSON are unchanged.
 
-- Registration always creates PASSENGER; unknown input fields such as `role` are rejected.
-- Only an administrator provisions ADMIN or DRIVER. Role is not editable through a profile request.
-- Session cookies are HttpOnly and SameSite=Lax. Enable Secure behind HTTPS. Login rotates the session ID; logout invalidates it.
-- Every mutation, including login/reset, requires the CSRF token returned by `/auth/csrf` in the same session.
-- Passwords use BCrypt cost 12. Password validation respects BCrypt's 72-byte limit.
-- Password reset stores a SHA-256 token hash, expires after 30 minutes, consumes it once and increments account authentication version. Existing sessions are revoked on their next request.
-- Staff deactivation also increments authentication version. An administrator cannot deactivate their own account.
-- Passenger ownership is checked in services. Unowned booking/hold resources return 404. Driver manifests require the assigned driver, not merely the DRIVER role.
-- Public seat data contains label, row/column and state only. Contacts are exposed only through authorized booking/manifest responses.
-- Authentication/reset/hold endpoints have bounded in-memory rate limits. These are per-process, suitable for the documented single-instance topology; distributed rate limiting is future work.
-- Sensitive successful state changes create audit events in the same transaction. Failed attempts are not a complete security audit stream.
+## Frontend layout
 
-## Key decisions
+```text
+frontend/src/
+  app/                           Shell, feature registry, session hook, error boundary, styles
+  features/
+    identity/{pages,components}/
+    catalog/{pages,components}/
+    scheduling/{pages,components}/
+    booking/{pages,components}/
+    reporting/pages/
+  shared/
+    api/client.js                HTTP, session cookies, CSRF, errors and timeout
+    auth/                        Generated role grants and capability helpers
+    lib/                         Currency/date formatting and CSV export
+    ui/                          Shared accessible controls and dialogs
+```
 
-1. **Trip-root lock:** every inventory mutation locks its trip. Simpler reasoning and atomic multi-seat changes take priority over maximum throughput. Separate trips can proceed independently.
-2. **Account then trip lock:** hold/confirmation requests serialize per account, preventing duplicate concurrent idempotency inserts. Inventory operations never acquire account locks after trip locks.
-3. **Database scheduling constraint:** PostgreSQL exclusion constraints arbitrate overlapping bus and driver assignments even across concurrent requests.
-4. **Snapshots:** trip inventory, hold amount/policy, and booking contact/route/departure snapshots preserve the meaning of sold reservations.
-5. **No destructive history deletion:** archive catalog resources, cancel trips/bookings explicitly, and retain references.
-6. **Synchronous trip cancellation:** one transaction cancels bookings, releases holds and closes the trip. A failure rolls back the whole operation; the current bounded single-bus inventory does not require a background cancellation job.
-7. **No file uploads:** multipart handling is disabled. The core product has no document/image upload requirement.
+`app/features.jsx` registers pages, navigation, capability visibility and lazy-loaded components. `useSession` owns login-session initialization and expiration. Pages compose focused components such as TripEditor, Manifest, CounterSale, PaymentEditor and TicketView. The `@/` alias points to `src`, so moving a component does not require long relative paths.
+
+## Scale and operations
+
+- Occupancy queries aggregate seats and bookings for one bounded trip page instead of materializing each trip's full inventories and reservation lists. Trip lists fetch the referenced route/bus/driver together.
+- Controllers keep existing pagination and input bounds. Catalogs and manifests are still unpaginated: add endpoint-compatible pagination/streaming before using very large datasets.
+- PostgreSQL locks and constraints remain the authority for seat and schedule conflicts. Contention is per trip; load-test popular departures before increasing capacity.
+- Sessions and rate limiting remain process-local. Multiple replicas require shared sessions and a shared/edge limiter, plus tested scheduler behavior. No distributed cache or message broker has been added.
+- The production profile requires explicit database/origin/frontend settings, uses secure cookies and graceful shutdown. It does not provide TLS termination, deployment automation, monitoring, backups or disaster recovery.
+
+See [extension guide](docs/EXTENDING-THE-SYSTEM.md), [refactor assessment](docs/REFACTOR-ASSESSMENT.md), and [production deployment prerequisites](docs/PRODUCTION.md).
