@@ -1,6 +1,6 @@
 # ADR 0001: Isolated replacement
 
-Status: accepted by the user's implementation plan.
+Status: **superseded in part** by [ADR 0002](0002-final-document-alignment.md). Retained as historical context; its /api/v2 choice and earlier package/roadmap guidance are no longer active. Isolation and migration preservation remain in force.
 
 The source specification is retained verbatim. The later approved migration plan governs these deliberate differences:
 

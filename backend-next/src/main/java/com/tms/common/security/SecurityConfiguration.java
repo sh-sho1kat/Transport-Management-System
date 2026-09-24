@@ -1,7 +1,7 @@
-package com.tms.config;
+package com.tms.common.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tms.shared.response.ApiError;
+import com.tms.common.response.ApiErrorFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,8 +12,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfiguration {
   @Bean
-  SecurityFilterChain security(HttpSecurity http, ObjectMapper mapper) throws Exception {
-    // No login mechanism until Stage 1. Every non-health request is denied.
+  SecurityFilterChain security(HttpSecurity http, ObjectMapper mapper, ApiErrorFactory errors)
+      throws Exception {
+    // No login mechanism until Increment 1. Every non-health request is denied.
     return http.csrf(AbstractHttpConfigurer::disable)
         .formLogin(AbstractHttpConfigurer::disable)
         .httpBasic(AbstractHttpConfigurer::disable)
@@ -33,7 +34,9 @@ public class SecurityConfiguration {
                           response.setContentType("application/json");
                           mapper.writeValue(
                               response.getOutputStream(),
-                              ApiError.of(
+                              errors.create(
+                                  request,
+                                  401,
                                   "UNAUTHORIZED",
                                   "Authentication is not available in this foundation"));
                         })
@@ -43,7 +46,7 @@ public class SecurityConfiguration {
                           response.setContentType("application/json");
                           mapper.writeValue(
                               response.getOutputStream(),
-                              ApiError.of("FORBIDDEN", "Access denied"));
+                              errors.create(request, 403, "FORBIDDEN", "Access denied"));
                         }))
         .build();
   }

@@ -3,7 +3,7 @@
   "info": {
     "title": "Wayline Next \u2014 implemented foundation only",
     "version": "0.1.0",
-    "description": "Business endpoints will use /api/v2 as each stage is implemented. No authentication or business endpoint exists yet."
+    "description": "Implemented Increment 0 only. Future business endpoints use /api/v1 on port 8089. No authentication or business endpoint exists yet."
   },
   "servers": [
     {
@@ -45,23 +45,37 @@
   },
   "components": {
     "schemas": {
-      "ApiError": {
+      "ApiErrorResponse": {
         "type": "object",
+        "additionalProperties": false,
         "required": [
+          "timestamp",
+          "status",
           "code",
           "message",
-          "timestamp"
+          "path",
+          "traceId"
         ],
         "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "integer"
+          },
           "code": {
             "type": "string"
           },
           "message": {
             "type": "string"
           },
-          "timestamp": {
+          "path": {
+            "type": "string"
+          },
+          "traceId": {
             "type": "string",
-            "format": "date-time"
+            "format": "uuid"
           }
         }
       }

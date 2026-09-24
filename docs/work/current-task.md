@@ -1,22 +1,22 @@
-# Next task: Stage 1A — accounts and role persistence
+# Next task: Increment 1A — account and role persistence
 
 ## Objective
-Implement the identity persistence foundation as one bounded slice, before issuing any tokens or exposing login endpoints.
+Implement the first bounded slice of specification Increment 1. Persist accounts and roles; expose no authentication endpoints yet.
 
 ## Relevant specification sections
-Read the User, UserRole, account status, role, password and identity schema sections of ../specification.md. Follow ../permissions.md and ADR 0001 for migration precedence. Confirm exact fields/statuses from the source before creating DDL.
+FINAL_SPEC sections 5 (roles), 14–15 (user model and booking relationship), 50–52 (identity schema), 95–96 (security/authorization), 100 (Increment 1). Use actual field definitions and ADR 0002 when interpreting examples. Complete refresh-token persistence/lifecycle in the subsequent authentication slice.
 
 ## Allowed modules
-backend-next identity/user and identity/security, shared types only where required, new Flyway migrations, matching tests and documentation.
+backend-next user entity/repository/service/policy and matching tests; common security interfaces only if needed. New Flyway migrations and supporting contract/docs are allowed. Existing backend, frontend and applied migrations are read-only.
 
 ## Required API/database changes
-Add V2 for users/roles with BIGINT IDs, unique normalized account identifiers, valid role constraints and BCrypt password storage. Define a permission vocabulary and explicit target role matrix. No public registration or login endpoint in this slice. Keep non-health routes denied.
+Add V2 users/user_roles, BIGINT identity and the documented fields/constraints, BCrypt hashing, account normalization and a reviewed named permission matrix. Define public user service boundaries without leaking entities. No login, registration or token endpoint in this slice; non-health requests stay denied.
 
 ## Acceptance tests
-Real PostgreSQL migration/constraint tests; account normalization and password hashing; rejects duplicate identifiers and invalid roles; default grants fail closed; existing foundation and architecture tests pass. Maintain the rule preventing business modules from depending on workflow as features appear.
+Real PostgreSQL migration/constraint tests, password hashing, duplicate-account rejection, account status and role validation, default-denied grants, audit timestamps, and full foundation/architecture suite. Resolve phone/email normalization in this slice against the specification before implementation.
 
 ## Explicit exclusions
-JWT issuance, refresh lifecycle, controller endpoints, frontend changes, driver records, business inventory, legacy data import and any edits to existing backend/migrations.
+JWT/refresh endpoints, other business entities, frontend changes, migration/import, Docker and production deployment.
 
 ## Following slice
-Stage 1B: registration/login plus JWT validation and a reviewed refresh transport/lifecycle, then endpoint/resource authorization tests. Split further if necessary; never expose partial insecure auth.
+Increment 1B completes registration/login/JWT and a reviewed refresh-token transport/lifecycle before exposing authentication; split further if necessary. Do not proceed automatically. All Increment 1 acceptance must pass before Increment 2.

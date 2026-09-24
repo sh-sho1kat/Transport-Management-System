@@ -1,19 +1,29 @@
 # Documentation index
 
-Two implementations coexist during migration. The current application remains the working product; the replacement currently implements Stage 0 only.
+## Start here
 
-## Replacement
-- [Local setup](../backend-next/README.md)
-- [Approved source specification](specification.md) — preserved verbatim; migration decisions below resolve conflicts.
-- [Architecture and package map](architecture.md)
-- [Database relationships](database.md)
-- [Roles and scope](permissions.md)
-- [Current contract](api/current-v1.md) / [implemented replacement contract](api/next-v2.yaml)
-- [Migration decisions](decisions/0001-parallel-replacement.md)
-- [Compatibility](migration/compatibility.md), [data mapping](migration/data-mapping.md), [cutover](migration/cutover.md)
-- [Roadmap](work/roadmap.md), [current task](work/current-task.md), [handoff](work/handoff.md)
+- [Replacement setup](../backend-next/README.md): IntelliJ, PostgreSQL, DBeaver, Postman and verification.
+- [Current state](CURRENT_STATE.md): implemented, partial, missing and deferred requirements.
+- [Plan](PLAN.md): specification Increments 0–23 and release hardening.
+- [Current task](work/current-task.md) and [verified handoff](work/handoff.md).
 
-## Running application
-[Start here](../START-HERE.md), [current architecture](../ARCHITECTURE.md), [current database](DATABASE.md), [current API](API.md), [counter operations](COUNTER-OPERATIONS.md).
+## Authoritative targets and decisions
 
-Lowercase documentation describes the replacement. Existing uppercase documents describe the current application. This naming is temporary during migration.
+- [FINAL_SPEC](FINAL_SPEC.md): complete source specification, preserved verbatim.
+- [Backend structure reference](references/BACKEND_STRUCTURE.md).
+- [Future frontend blueprint](references/FRONTEND_BLUEPRINT.md): deferred; no frontend dependencies installed.
+- [Incremental workflow reference](references/INCREMENTAL_WORKFLOW.md).
+- [Accepted alignment decision](decisions/0002-final-document-alignment.md): precedence, local-only setup, package names, API version and migration numbering exceptions.
+- [Architecture](architecture.md), [database relationships](database.md), [permissions](permissions.md).
+
+## Compatibility and migration
+
+- [API compatibility matrix](API_COMPATIBILITY.md), [migration map](MIGRATION_MAP.md).
+- [Existing contract](api/current-v1.md), [replacement implemented contract](api/next.yaml).
+- [Compatibility boundary](migration/compatibility.md), [data reconciliation](migration/data-mapping.md), [cutover gates](migration/cutover.md).
+
+## Existing working application
+
+[Local run guide](../START-HERE.md), [existing architecture](../ARCHITECTURE.md), [existing database](DATABASE.md), [existing API](API.md), [counter operations](COUNTER-OPERATIONS.md).
+
+Original references describe the eventual product. They do not mean those features currently exist. Historical reports retain their original facts; CURRENT_STATE and the handoff describe today's replacement.

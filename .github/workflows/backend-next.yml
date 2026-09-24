@@ -1,9 +1,9 @@
 name: Replacement foundation
 on:
   push:
-    paths: ['backend-next/**', 'scripts/next-db.py', 'scripts/checks/**', 'docs/api/next-v2.yaml', '.github/workflows/backend-next.yml']
+    paths: ['backend-next/**', 'scripts/next-db.py', 'scripts/checks/**', 'docs/**', '.github/workflows/backend-next.yml']
   pull_request:
-    paths: ['backend-next/**', 'scripts/next-db.py', 'scripts/checks/**', 'docs/api/next-v2.yaml', '.github/workflows/backend-next.yml']
+    paths: ['backend-next/**', 'scripts/next-db.py', 'scripts/checks/**', 'docs/**', '.github/workflows/backend-next.yml']
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -23,6 +23,8 @@ jobs:
         run: ./mvnw --batch-mode clean verify
       - name: Check implemented API contract
         run: python3 scripts/checks/next-contract.py
+      - name: Check maintained documentation
+        run: python3 scripts/checks/docs-links.py
       - name: Stop private cluster
         if: always()
         run: python3 scripts/next-db.py stop

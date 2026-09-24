@@ -1,35 +1,55 @@
-# Verified handoff — 2026-09-23
+# Verified handoff — final-document alignment, 2026-09-23
 
 ## Completed changes
 
-Stage 0 only: independent backend-next Spring Boot application, Java 21 compiler target, copied Maven wrapper, dev/test/prod profiles, separate PostgreSQL helper, Flyway foundation migration, JPA validation, health endpoint, safe JSON errors and default-denied stateless security. No login or business endpoints exist yet.
+Increment 0 local foundation aligned with the newly approved documents. Preserved all four attachments verbatim; FINAL_SPEC.md is canonical and specification.md is a pointer. Added CURRENT_STATE, MIGRATION_MAP, API_COMPATIBILITY and PLAN, updated AGENTS/setup/index, and superseded earlier package/API choices through ADR 0002. The earlier handoff remains unchanged in [history](history/20260923-stage0-handoff.md).
 
-Added the target package/MVC ownership map, preserved full source specification, database relationships, target role scope, current API inventory, implemented replacement OpenAPI, migration decisions/mapping/cutover guides, ordered roadmap and short root AGENTS.md. Added a separate replacement CI workflow and read-only migration inventory helper. Optional Docker location contains documentation only.
+Moved foundation code into common/config, common/security, common/exception and common/response. Added UTC Clock, timestamp-only JPA auditing and request tracing. All application/security errors use timestamp/status/code/message/path/traceId; timestamps are ISO text; X-Trace-Id matches the body and MDC is cleared. Health remains the only public endpoint. Target business prefix is /api/v1, but no business endpoint or authentication exists yet.
 
-Current backend, frontend and existing local-db.py are untouched: SHA-256 comparison passed for all 163 protected files. Original Flyway V1–V3 unchanged. Pre-existing uncommitted work was preserved. The two existing files edited for navigation/ignores (README.md and .gitignore) were backed up under `.local/code-backups/next-foundation-20260923-174241`.
+Added architecture cycle/boundary checks with negative examples, auditing persistence tests using a uniquely named temporary test schema, expanded error/security tests, version-neutral next.yaml contract, documentation checker and updated CI references.
 
-## Tests run and results
+## Commands and verified results
 
-- Initial Maven `clean verify`: passed (4 tests); final Maven `verify` after error tests/formatting: passed (6 tests, 0 failures/errors/skips).
-- Local validation used `/tmp/apache-maven-3.9.11/bin/mvn -o -Dmaven.repo.local=/tmp/tms-m2` with installed Java 25 and release 21 compiler target. The standard reproducible developer command is `./mvnw clean verify`; wrapper download behavior and CI Java 21 runtime were not exercised here.
-- Foundation tests use real PostgreSQL 16 in wayline_next_test: migration marker, healthy connection, denied business/write/actuator-detail requests and no session cookie.
-- Error tests: malformed JSON returns 400; unexpected errors return safe 500 without private details.
-- Architecture test: package ownership, MVC controller isolation, shared isolation, module API boundaries, no business-to-workflow dependencies.
-- `python3 scripts/checks/next-contract.py`: passed (foundation contract shape; not a full OpenAPI semantic validator).
-- `python3 scripts/migration/inventory.py`: passed, read-only; three legacy migrations, one new migration, 41 legacy API paths.
-- Packaged dev application on port 8089: GET /actuator/health returned 200/UP; GET /api/v2/bookings returned 401/UNAUTHORIZED. The dev migration applied independently; repeat test startup validated the existing test migration successfully.
-- Original specification copy verified byte-for-byte. No old-backend/frontend tests were rerun because their protected files did not change.
+From project root:
 
-## Known failures or unfinished work
+```bash
+python3 scripts/next-db.py start
+python3 scripts/checks/next-contract.py
+python3 scripts/checks/docs-links.py
+python3 scripts/migration/inventory.py
+git diff --check
+```
 
-No failures in executed checks. Hosted CI has not run. Local Java tooling emits existing deprecation/Mockito agent warnings. Source-based architecture checks are guardrails, not proof of transaction correctness or complete dependency analysis. Stage 1–16 and later extensions are unimplemented; no production readiness, JWT, accounts, CORS integration, importer, payments or inventory are claimed.
+Contract check passed. Documentation links checked (19 active documents; final link count printed by checker); immutable references/history excluded. Inventory: three original migrations, one replacement foundation migration, 41 legacy API paths. Protected-file SHA-256 check: all 165 backend/frontend/helper/applied-migration files unchanged. All four repository reference documents match the supplied attachments byte-for-byte.
 
-## Migration/configuration notes
+Java 21 runtime was installed without javac 21, causing the first Maven attempt to fail compilation. Downloaded the matching Ubuntu openjdk-21-jdk-headless package to /tmp and combined it with the installed runtime in an isolated temporary toolchain, without installing system packages. A subsequent test caught numeric serialization of the error timestamp in standalone MVC; JsonFormat now enforces the specified ISO string.
 
-Replacement API port 8089; private PostgreSQL port 55433; database/user wayline_next; local password NextDb123!; separate test DB wayline_next_test. The normal local helper on 55432 is unchanged. Stop the temporary verification app and replacement cluster after verification; start `python3 scripts/next-db.py start` before the next IntelliJ run. Data is preserved.
+Final successful build, from backend-next:
 
-Stage 0 V1 is a foundation marker; next business migration is V2. The source specification's example numbering and /api/v1 routes are superseded by ADR 0001. Keep the existing frontend on backend port 8088. No application login credentials exist for backend-next.
+```bash
+JAVA_HOME=/tmp/tms-align/jdk/usr/lib/jvm/java-21-openjdk-amd64 /tmp/apache-maven-3.9.11/bin/mvn -o -Dmaven.repo.local=/tmp/tms-m2 verify
+```
+
+**12 tests passed, 0 failures, 0 errors, 0 skipped**, on Java 21.0.12.1 and PostgreSQL 16.15. Tests: four foundation/security, four error/tracing, three architecture (including cycle/violation negative cases), one persistence auditing test. Initial clean build followed by successful verification after the timestamp fix. Final log: /tmp/tms-align-build-final.log. Standard developer command remains `./mvnw clean verify` with a complete JDK and started test database.
+
+Packaged application started and stopped twice with Java 21 on 8089: GET /actuator/health returned 200/UP both times; GET /api/v1/bookings returned 401 with exactly six error fields, ISO timestamp and matching UUID trace header. Flyway history/checksum unchanged across both startups. No audit fixture schemas remained in the test database. Runtime logs: /tmp/tms-align-runtime-1.log and -2.log; result /tmp/tms-align-runtime-results.json. The local runtime verification script lives only in /tmp and is not required to run the project.
+
+## Known limitations / deferred work
+
+No failing application checks remain. Hosted GitHub Actions and Maven-wrapper downloads were not exercised. The host still needs a complete permanent JDK selected for IntelliJ/Maven; the temporary verification toolchain is not a permanent SDK setup. Existing Mockito dynamic-agent warnings remain.
+
+Docker/Testcontainers are explicitly deferred, so original Increment 0 is not marked fully complete without that documented exception. Actor attribution, persistent audit logs, users/JWT, business tables, feature APIs, Swagger UI, importer and frontend integration are unimplemented. Source-level architecture checks are guardrails, not proof of transactional correctness.
+
+An automatic permission-review attempt for runtime verification timed out; the subsequently approved prepared check completed. No work remains blocked by that timeout.
+
+## Configuration and preservation
+
+Current backend/frontend and both DB helpers are unchanged. Applied migrations are unchanged. Local replacement: 8089; PostgreSQL 55433; database/user wayline_next; local password NextDb123!; test database wayline_next_test. Future migrations start V2. NEXT_DB_URL/NEXT_DB_USER/NEXT_DB_PASSWORD remain production inputs; .env is not auto-loaded.
+
+Verification application processes are stopped. Stop the replacement cluster with scripts/next-db.py stop after final checks; data is preserved. Start it again before running IntelliJ. No old database was reset or imported; no Git commit/tag, container setup or frontend package install occurred.
+
+Backup of modified original files: .local/code-backups/document-alignment-20260923-190532. No source files from the existing application were moved.
 
 ## Exact next task
 
-Follow current-task.md: Stage 1A accounts and role persistence only, with specification-confirmed fields, V2 users/roles, BCrypt, explicit permission vocabulary and database/policy tests. Keep routes closed. JWT, refresh lifecycle and public registration/login belong to a later reviewed slice. Do not implement the entire roadmap in one session.
+Increment 1A account/role persistence under user, new V2 migration, BCrypt and role/permission tests; follow current-task.md. Keep API routes closed. Registration/login/JWT/refresh and their transport policies belong to subsequent bounded authentication slices. Do not begin Increment 2 before all of Increment 1 is verified.

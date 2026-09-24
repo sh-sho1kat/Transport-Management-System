@@ -1,4 +1,4 @@
-> Replacement structure: [documentation index](docs/README.md), [Stage 0 run guide](backend-next/README.md), and [implementation roadmap](docs/work/roadmap.md). The current application below remains unchanged.
+> Replacement structure: [documentation index](docs/README.md), [Increment 0 run guide](backend-next/README.md), and [implementation roadmap](docs/work/roadmap.md). The current application below remains unchanged.
 
 > Architecture refactor: [feature layout](ARCHITECTURE.md), [extension guide](docs/EXTENDING-THE-SYSTEM.md), and [production prerequisites](docs/PRODUCTION.md).
 

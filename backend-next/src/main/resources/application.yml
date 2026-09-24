@@ -26,3 +26,6 @@ management:
   endpoint:
     health:
       show-details: never
+logging:
+  pattern:
+    level: "%5p [traceId=%X{traceId}]"

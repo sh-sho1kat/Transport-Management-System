@@ -1,9 +1,9 @@
 # Cutover gate (future work)
 
-No cutover is authorized or performed by the Stage 0 scaffold.
+No cutover is authorized or performed by the Increment 0 scaffold.
 
 1. Complete feature acceptance, authorization, concurrency, payment, expiry, cancellation and migration tests on PostgreSQL.
-2. Adapt frontend against implemented v2 contracts; verify login/refresh, CORS, ownership, counter cash operations, ticket/check-in and errors end to end.
+2. Adapt frontend against implemented replacement contracts; verify login/refresh, CORS, ownership, counter cash operations, ticket/check-in and errors end to end.
 3. Rehearse import and reconciliation from an immutable backup; document archive access, ID mappings and rejected rows.
 4. Schedule a maintenance window; stop legacy sales and background inventory writers. Snapshot the source and resolve/expire outstanding holds under the approved policy.
 5. Import into the replacement, reconcile counts, money and active inventory; obtain release approval on the concrete result.

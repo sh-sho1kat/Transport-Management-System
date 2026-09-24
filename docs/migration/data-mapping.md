@@ -1,6 +1,6 @@
 # Data mapping and reconciliation plan
 
-No importer or data movement is implemented at Stage 0. `scripts/migration/inventory.py` reports local contract/migration filenames only; it does not connect to either database.
+No importer or data movement is implemented at Increment 0. `scripts/migration/inventory.py` reports local contract/migration filenames only; it does not connect to either database.
 
 | Source | Target decision |
 |---|---|
