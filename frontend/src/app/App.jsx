@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import DemoAccess from "@/features/identity/components/DemoAccess";
 import { BusFront, UserRound, LogOut, Menu } from "lucide-react";
 import { ErrorBox, Loading } from "@/shared/ui";
 import { roleLabel } from "@/shared/auth/access";
@@ -106,6 +107,14 @@ export default function App() {
         </header>
         <main>
           <ErrorBox error={error} />
+          {!user && <DemoAccess onLogin={login} />}
+          {import.meta.env.VITE_PUBLIC_DEMO === "true" && user && (
+            <div className="notice" role="status">
+              {user.email === "admin.demo@example.test"
+                ? "Administrator demo: read-only preview. Changes are blocked to protect shared data."
+                : "Public demo: fictional data only. No real payments. Shared account details are protected."}
+            </div>
+          )}
           <FeaturePage
             page={page}
             user={user}

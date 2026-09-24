@@ -14,6 +14,7 @@ import com.tms.identity.repository.AccountRepository;
 import com.tms.identity.repository.ResetTokenRepository;
 import com.tms.identity.security.CurrentAccount;
 import com.tms.identity.security.Permission;
+import com.tms.identity.security.PublicDemoPolicy;
 import com.tms.shared.api.request.Active;
 import com.tms.shared.error.ApiException;
 import com.tms.shared.security.Digests;
@@ -41,6 +42,7 @@ public class AccountService implements IdentityService {
   private final boolean mailEnabled;
   private final String from;
   private final String frontend;
+  private final PublicDemoPolicy demo;
 
   public AccountService(
       AccountRepository a,
@@ -50,9 +52,11 @@ public class AccountService implements IdentityService {
       AuditService au,
       Clock cl,
       JavaMailSender m,
+      PublicDemoPolicy demo,
       @Value("${app.mail-enabled}") boolean enabled,
       @Value("${app.mail-from}") String from,
       @Value("${app.frontend-url}") String frontend) {
+    this.demo = demo;
     accounts = a;
     tokens = t;
     passwords = p;
@@ -66,6 +70,7 @@ public class AccountService implements IdentityService {
   }
 
   public User register(Register r) {
+    demo.requireEditable(r.email().trim());
     return IdentityMapper.user(
         create(r.email(), r.password(), r.displayName(), r.phone(), Role.PASSENGER));
   }
@@ -90,6 +95,7 @@ public class AccountService implements IdentityService {
 
   public User profile(Profile r) {
     var a = current.get();
+    demo.requireEditable(a.getEmail());
     a.setDisplayName(r.displayName().trim());
     a.setPhone(r.phone().trim());
     return IdentityMapper.user(a);
@@ -117,6 +123,7 @@ public class AccountService implements IdentityService {
     if (actor.getId().equals(id) && !r.active())
       throw ApiException.invalid("You cannot deactivate your own account");
     var a = accounts.lockById(id).orElseThrow(ApiException::missing);
+    demo.requireEditable(a.getEmail());
     if (a.getRole() == Role.PASSENGER)
       throw ApiException.invalid("This endpoint manages staff only");
     a.setActive(r.active());
@@ -126,6 +133,7 @@ public class AccountService implements IdentityService {
   }
 
   public void requestReset(String email) {
+    if (demo.protectedAccount(email.trim())) return;
     var found = accounts.findByEmail(email.trim().toLowerCase(Locale.ROOT));
     if (found.isEmpty() || !found.get().getActive() || !mailEnabled) return;
     byte[] bytes = new byte[32];
@@ -162,6 +170,7 @@ public class AccountService implements IdentityService {
             .orElseThrow(() -> ApiException.invalid("Reset link is invalid or expired"));
     validatePassword(r.password());
     var a = accounts.lockById(t.getAccount().getId()).orElseThrow(ApiException::missing);
+    demo.requireEditable(a.getEmail());
     a.setPasswordHash(passwords.encode(r.password()));
     a.setAuthVersion(a.getAuthVersion() + 1);
     t.setConsumed(true);

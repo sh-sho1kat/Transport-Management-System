@@ -1,10 +1,12 @@
-> Replacement structure: [documentation index](docs/README.md), [Increment 0 run guide](backend-next/README.md), and [implementation roadmap](docs/work/roadmap.md). The current application below remains unchanged.
+> **CV live demo:** [complete Render + Neon setup](docs/LIVE-DEMO.md), including public passenger/admin credentials and final dashboard steps.
+
+> Replacement structure: [documentation index](docs/README.md), [Increment 0 run guide](backend-next/README.md), and [implementation roadmap](docs/work/roadmap.md). The current application below is also available as an opt-in public demo.
 
 > Architecture refactor: [feature layout](ARCHITECTURE.md), [extension guide](docs/EXTENDING-THE-SYSTEM.md), and [production prerequisites](docs/PRODUCTION.md).
 
 > Updated: counter staff, walk-in tickets, cash collection/refunds, and fare updates are documented in [Counter operations](docs/COUNTER-OPERATIONS.md).
 
-# Wayline — Local Development Edition
+# Wayline — Bus Management System
 
 General bus reservation and fleet management with **React + Spring Boot + PostgreSQL**.
 
@@ -33,7 +35,7 @@ python3 scripts/seed-demo.py
 python3 scripts/check-connectivity.py
 ```
 
-Docker configuration is removed. Local configuration is classpath-based; `.env` is no longer loaded. Open `backend/src/main/resources/application-local.properties` to see the defaults. No IDE-specific plugin is required to run the Java main class with a JDK and imported Maven dependencies.
+Local development does not require Docker. The root Dockerfile is used only for optional Render hosting. Local configuration is classpath-based; `.env` is no longer loaded. Open `backend/src/main/resources/application-local.properties` to see the defaults. No IDE-specific plugin is required to run the Java main class with a JDK and imported Maven dependencies.
 
 ## What is implemented
 

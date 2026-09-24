@@ -24,6 +24,9 @@
 
 ## Existing working application
 
+[Render + Neon public demo setup](LIVE-DEMO.md) and [deployment verification](work/live-demo-handoff.md). This opt-in hosting work does not migrate the replacement backend.
+
+
 [Local run guide](../START-HERE.md), [existing architecture](../ARCHITECTURE.md), [existing database](DATABASE.md), [existing API](API.md), [counter operations](COUNTER-OPERATIONS.md).
 
 Original references describe the eventual product. They do not mean those features currently exist. Historical reports retain their original facts; CURRENT_STATE and the handoff describe today's replacement.

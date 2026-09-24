@@ -3,6 +3,7 @@ package com.tms.identity.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tms.identity.repository.AccountRepository;
 import com.tms.identity.security.Actor;
+import com.tms.identity.security.PublicDemoPolicy;
 import com.tms.shared.error.ApiErrors;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -59,6 +60,7 @@ public class SecurityConfiguration {
       SecurityContextRepository contexts,
       AccountRepository accounts,
       ObjectMapper json,
+      PublicDemoPolicy demo,
       @Value("${app.allowed-origins}") String origins)
       throws Exception {
     var cors = new CorsConfiguration();
@@ -77,7 +79,14 @@ public class SecurityConfiguration {
         .logout(c -> c.disable())
         .authorizeHttpRequests(
             c ->
-                c.requestMatchers("/actuator/health", "/actuator/health/**", "/api/v1/auth/**")
+                c.requestMatchers(
+                        org.springframework.http.HttpMethod.GET,
+                        "/",
+                        "/index.html",
+                        "/assets/**",
+                        "/favicon.ico")
+                    .permitAll()
+                    .requestMatchers("/actuator/health", "/actuator/health/**", "/api/v1/auth/**")
                     .permitAll()
                     .requestMatchers(
                         org.springframework.http.HttpMethod.GET,
@@ -129,6 +138,17 @@ public class SecurityConfiguration {
               throws ServletException, IOException {
             var auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth != null && auth.getPrincipal() instanceof Actor actor) {
+              if (demo.denyRequest(actor.email(), req.getMethod(), req.getRequestURI())) {
+                res.setStatus(403);
+                res.setContentType("application/json");
+                json.writeValue(
+                    res.getOutputStream(),
+                    ApiErrors.body(
+                        "DEMO_READ_ONLY",
+                        "Admin demo is read-only. Shared data cannot be changed.",
+                        List.of()));
+                return;
+              }
               var a = accounts.findById(actor.id());
               if (a.isEmpty()
                   || !a.get().getActive()

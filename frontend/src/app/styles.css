@@ -951,3 +951,15 @@ td small {
     transition: none !important;
   }
 }
+
+.demo-access {
+  margin-bottom: 1.5rem;
+}
+.demo-account-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+.demo-account-grid code {
+  overflow-wrap: anywhere;
+}

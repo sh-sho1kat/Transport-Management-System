@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: wayline-demo
+    runtime: docker
+    plan: free
+    region: ohio
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: DEMO_ENABLED
+        value: "true"
+      - key: SERVER_ADDRESS
+        value: 0.0.0.0
+      - key: PORT
+        value: "10000"
+      - key: DB_POOL_SIZE
+        value: "3"
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_USER
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: BOOTSTRAP_ADMIN_EMAIL
+        sync: false
+      - key: BOOTSTRAP_ADMIN_PASSWORD
+        sync: false
+      - key: MAIL_ENABLED
+        value: "false"
